@@ -2,7 +2,7 @@
 defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView;
 
-class PpViewTask_type extends HtmlView {
+class PpViewObject extends HtmlView {
     protected $item, $form, $script;
 
     public function display($tmp = null) {
@@ -17,15 +17,15 @@ class PpViewTask_type extends HtmlView {
     }
 
     protected function addToolbar() {
-	    JToolBarHelper::apply('task_type.apply', 'JTOOLBAR_APPLY');
-        JToolbarHelper::save('task_type.save', 'JTOOLBAR_SAVE');
-        JToolbarHelper::cancel('task_type.cancel', 'JTOOLBAR_CLOSE');
+	    JToolBarHelper::apply('object.apply', 'JTOOLBAR_APPLY');
+        JToolbarHelper::save('object.save', 'JTOOLBAR_SAVE');
+        JToolbarHelper::cancel('object.cancel', 'JTOOLBAR_CLOSE');
         JFactory::getApplication()->input->set('hidemainmenu', true);
     }
 
     protected function setDocument() {
-        $title = ($this->item->id !== null) ? JText::sprintf('COM_PP_TITLE_TASK_TYPE_EDIT', $this->item->title) : JText::sprintf('COM_PP_TITLE_TASK_TYPE_ADD');
-        JToolbarHelper::title($title, 'list');
+        $title = ($this->item->id !== null) ? JText::sprintf('COM_PP_TITLE_OBJECT_EDIT', $this->item->title) : JText::sprintf('COM_PP_TITLE_OBJECT_ADD');
+        JToolbarHelper::title($title, 'pie');
         JHtml::_('bootstrap.framework');
     }
 }
