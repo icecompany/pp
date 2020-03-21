@@ -20,7 +20,7 @@
             <option value="">COM_PP_FILTER_SELECT_PARENT</option>
         </field>
         <field
-                name="managerID"
+                name="manager"
                 type="manager"
                 label="COM_PP_FILTER_SELECT_DIRECTOR"
                 description="COM_PP_FILTER_SELECT_DIRECTOR"

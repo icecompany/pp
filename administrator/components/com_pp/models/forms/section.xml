@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addrulepath="/administrator/components/com_pp/models/rules">
+    <fieldset name="general">
+        <field
+                name="title"
+                type="text"
+                label="COM_PP_FORM_TITLE"
+                description="COM_PP_FORM_SECTION_TITLE_DESC"
+                hint="COM_PP_FORM_SECTION_TITLE_HINT"
+                message="COM_PP_FORM_SECTION_TITLE_MESSAGE"
+                autocomplete="off"
+                required="true"
+                validate="section"
+                maxlength="255"
+                class="span12"
+        />
+        <field
+                name="parentID"
+                type="Sectionparent"
+                label="COM_PP_FORM_SECTION_PARENT_LABEL"
+                description="COM_PP_FORM_SECTION_PARENT_DESC"
+                class="span12"
+        >
+                <option value="">COM_PP_FILTER_SELECT_PARENT</option>
+        </field>
+        <field
+                name="managerID"
+                type="manager"
+                label="COM_PP_FORM_SECTION_DIRECTOR_LABEL"
+                description="COM_PP_FORM_SECTION_DIRECTOR_DESC"
+                required="true"
+                class="span12"
+        />
+        <field
+                name="id"
+                type="hidden"
+        />
+    </fieldset>
+</form>
