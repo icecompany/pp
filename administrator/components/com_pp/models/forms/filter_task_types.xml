@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field
+                name="search"
+                type="text"
+                label="COM_PP_FILTER_TASK_TYPES"
+                description="COM_PP_FILTER_TASK_TYPES"
+                hint="COM_PP_FILTER_TASK_TYPES"
+                autocomplete="off"
+                class="js-stools-search-string"
+        />
+    </fields>
+    <fields name="list">
+        <field
+                name="fullordering"
+                type="list"
+                label="COM_PP_FILTER_SELECT_FULL_ORDERING"
+                description="COM_PP_FILTER_SELECT_FULL_ORDERING_DESC"
+                onchange="this.form.submit();"
+                default="t.ordering asc"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="t.title ASC">COM_PP_SORTING_TITLE_ASC</option>
+            <option value="t.title DESC">COM_PP_SORTING_TITLE_DESC</option>
+            <option value="t.ordering ASC">COM_PP_SORTING_ORDERING_ASC</option>
+            <option value="t.ordering DESC">COM_PP_SORTING_ORDERING_DESC</option>
+            <option value="t.id ASC">COM_PP_SORTING_ID_ASC</option>
+            <option value="t.id DESC">COM_PP_SORTING_ID_DESC</option>
+        </field>
+        <field
+                name="limit"
+                type="limitbox"
+                class="input-mini"
+                default="0"
+                label="COM_PP_FILTER_SELECT_LIMIT"
+                description="COM_PP_FILTER_SELECT_LIMIT_DESC"
+                onchange="this.form.submit();"
+        />
+    </fields>
+</form>
