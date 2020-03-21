@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field
+                name="search"
+                type="text"
+                label="COM_PP_FILTER_SECTIONS"
+                description="COM_PP_FILTER_SECTIONS"
+                hint="COM_PP_FILTER_SECTIONS"
+                autocomplete="off"
+                class="js-stools-search-string"
+        />
+        <field
+                name="parent"
+                type="Sectionparent"
+                label="COM_PP_FILTER_SELECT_PARENT"
+                description="COM_PP_FILTER_SELECT_PARENT"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PP_FILTER_SELECT_PARENT</option>
+        </field>
+        <field
+                name="managerID"
+                type="manager"
+                label="COM_PP_FILTER_SELECT_DIRECTOR"
+                description="COM_PP_FILTER_SELECT_DIRECTOR"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PP_FILTER_SELECT_DIRECTOR</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field
+                name="fullordering"
+                type="list"
+                label="COM_PP_FILTER_SELECT_FULL_ORDERING"
+                description="COM_PP_FILTER_SELECT_FULL_ORDERING_DESC"
+                onchange="this.form.submit();"
+                default="o.ordering asc"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="s.title ASC">COM_PP_SORTING_TITLE_ASC</option>
+            <option value="s.title DESC">COM_PP_SORTING_TITLE_DESC</option>
+            <option value="manager ASC">COM_PP_SORTING_DIRECTOR_ASC</option>
+            <option value="manager DESC">COM_PP_SORTING_DIRECTOR_DESC</option>
+            <option value="parent ASC">COM_PP_SORTING_PARENT_ASC</option>
+            <option value="parent DESC">COM_PP_SORTING_PARENT_DESC</option>
+            <option value="s.ordering ASC">COM_PP_SORTING_ORDERING_ASC</option>
+            <option value="s.ordering DESC">COM_PP_SORTING_ORDERING_DESC</option>
+            <option value="s.id ASC">COM_PP_SORTING_ID_ASC</option>
+            <option value="s.id DESC">COM_PP_SORTING_ID_DESC</option>
+        </field>
+        <field
+                name="limit"
+                type="limitbox"
+                class="input-mini"
+                default="0"
+                label="COM_PP_FILTER_SELECT_LIMIT"
+                description="COM_PP_FILTER_SELECT_LIMIT_DESC"
+                onchange="this.form.submit();"
+        />
+    </fields>
+</form>
