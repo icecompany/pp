@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addrulepath="/administrator/components/com_pp/models/rules">
+    <fieldset name="general">
+        <field
+                name="title"
+                type="text"
+                label="COM_PP_FORM_TITLE"
+                description="COM_PP_FORM_TASK_TYPE_TITLE_DESC"
+                hint="COM_PP_FORM_TASK_TYPE_TITLE_HINT"
+                message="COM_PP_FORM_TASK_TYPE_TITLE_MESSAGE"
+                autocomplete="off"
+                required="true"
+                validate="tasktype"
+                maxlength="255"
+                class="span12"
+        />
+        <field
+                name="id"
+                type="hidden"
+        />
+    </fieldset>
+</form>
