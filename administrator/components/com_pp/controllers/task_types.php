@@ -3,7 +3,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 
 defined('_JEXEC') or die;
 
-class PpControllerTaskTypes extends AdminController
+class PpControllerTask_types extends AdminController
 {
     public function getModel($name = 'Task_type', $prefix = 'PpModel', $config = array())
     {

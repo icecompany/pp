@@ -19,7 +19,7 @@ HTMLHelper::_('script', 'com_pp/script.js', array('version' => 'auto', 'relative
         <form action="<?php echo PpHelper::getActionUrl(); ?>" method="post"
               name="adminForm" id="adminForm">
             <?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-            <table class="table table-striped">
+            <table class="table table-striped" id="itemList">
                 <thead><?php echo $this->loadTemplate('head'); ?></thead>
                 <tbody><?php echo $this->loadTemplate('body'); ?></tbody>
                 <tfoot><?php echo $this->loadTemplate('foot'); ?></tfoot>
