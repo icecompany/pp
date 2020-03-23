@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldpath="/administrator/components/com_prj/models/fields">
     <fields name="filter">
         <field
                 name="search"
@@ -11,7 +11,16 @@
                 class="js-stools-search-string"
         />
         <field
-                name="objectID"
+                name="project"
+                type="Project"
+                label="COM_PP_FILTER_SELECT_PROJECT"
+                description="COM_PP_FILTER_SELECT_PROJECT"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PP_FILTER_SELECT_PROJECT</option>
+        </field>
+        <field
+                name="object"
                 type="Object"
                 label="COM_PP_FILTER_SELECT_OBJECT"
                 description="COM_PP_FILTER_SELECT_OBJECT"
@@ -20,7 +29,7 @@
             <option value="">COM_PP_FILTER_SELECT_OBJECT</option>
         </field>
         <field
-                name="sectionID"
+                name="section"
                 type="Sectionchildren"
                 label="COM_PP_FILTER_SELECT_SECTION"
                 description="COM_PP_FILTER_SELECT_SECTION"
@@ -36,6 +45,19 @@
                 onchange="this.form.submit();"
                 >
             <option value="">COM_PP_FILTER_SELECT_MANAGER</option>
+        </field>
+        <field
+                name="status"
+                type="list"
+                label="COM_PP_FILTER_SELECT_STATUS"
+                description="COM_PP_FILTER_SELECT_STATUS"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PP_FILTER_SELECT_STATUS</option>
+            <option value="-2">COM_PP_TASK_STATUS_-2</option>
+            <option value="1">COM_PP_TASK_STATUS_1</option>
+            <option value="2">COM_PP_TASK_STATUS_2</option>
+            <option value="3">COM_PP_TASK_STATUS_3</option>
         </field>
     </fields>
     <fields name="list">

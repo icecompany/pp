@@ -17,10 +17,11 @@ class PpModelTasks extends ListModel
                 'section',
                 'parent',
                 'type',
+                'project',
                 't.date_start', 'date_end',
                 't.date_end', 'date_start',
                 't.date_close', 'date_close',
-                't.status', 'status',
+                'status',
             );
         }
         parent::__construct($config);
@@ -40,7 +41,8 @@ class PpModelTasks extends ListModel
         $limit = (!$this->export) ? $this->getState('list.limit') : 0;
 
         $query
-            ->select("t.id, t.date_start, t.date_end, t.date_close, t.status, t.task, t.result")
+            ->select("t.id, t.date_start, t.date_end, t.date_close, t.task, t.result")
+            ->select("if(t.date_start < current_date and t.date_end < current_date, if (t.date_close is not null, 3, -2), if (t.date_start <= current_date and t.date_end >= current_date, 1, 2)) as status")
             ->select("tt.title as type")
             ->select("s.title as section")
             ->select("s1.title as parent")
@@ -68,6 +70,26 @@ class PpModelTasks extends ListModel
                 $query->where("(t.task like {$text} or t.result like {$text})");
             }
         }
+        $status = $this->getState('filter.status');
+        if (is_numeric($status)) {
+            $query->having("status = {$this->_db->q($status)}");
+        }
+        $project = $this->getState('filter.project');
+        if (is_numeric($project)) {
+            $query->where("t.projectID = {$this->_db->q($project)}");
+        }
+        $object = $this->getState('filter.object');
+        if (is_numeric($object)) {
+            $query->where("t.objectID = {$this->_db->q($object)}");
+        }
+        $section = $this->getState('filter.section');
+        if (is_numeric($section)) {
+            $query->where("t.sectionID = {$this->_db->q($section)}");
+        }
+        $manager = $this->getState('filter.manager');
+        if (is_numeric($manager)) {
+            $query->where("t.managerID = {$this->_db->q($manager)}");
+        }
 
         $query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
         $this->setState('list.limit', $limit);
@@ -90,6 +112,7 @@ class PpModelTasks extends ListModel
             $arr['object'] = $item->object;
             $arr['director'] = $item->director;
             $arr['manager'] = $item->manager;
+            $arr['status'] = JText::sprintf("COM_PP_TASK_STATUS_{$item->status}");
             $date_start = JDate::getInstance($item->date_start);
             $date_end = JDate::getInstance($item->date_end);
             $arr['date_start'] = $date_start->format("d.m.Y");
@@ -102,7 +125,7 @@ class PpModelTasks extends ListModel
         return $result;
     }
 
-    protected function populateState($ordering = 't.id', $direction = 'asc')
+    protected function populateState($ordering = 'status', $direction = 'asc')
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
