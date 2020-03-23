@@ -10,6 +10,7 @@ class PpModelTask extends AdminModel {
         if ($item->id === null) {
             $item->date_start = JDate::getInstance()->format("Y-m-d");
             $item->date_end = JDate::getInstance(time() + 86400 * 7)->format("Y-m-d");
+            $item->managerID = JFactory::getUser()->id;
         }
         return $item;
     }
