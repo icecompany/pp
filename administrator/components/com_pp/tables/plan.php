@@ -7,14 +7,14 @@ class TablePpPlan extends Table
 {
     var $id = null;
     var $projectID = null;
-    var $actionID = null;
     var $sectionID = null;
     var $typeID = null;
     var $managerID = null;
     var $directorID = null;
     var $contractorID = null;
-    var $dae_start = null;
-    var $dae_end = null;
+    var $date_start = null;
+    var $date_end = null;
+    var $date_close = null;
     var $task = null;
     var $result = null;
     var $status = null;

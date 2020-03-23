@@ -48,12 +48,13 @@
 	<!-- Back-end files -->
 	<administration>
 		<!-- Menu entries -->
-		<menu view="plan">COM_PP_MENU_PLAN</menu>
+		<menu view="tasks">COM_PP_MENU_TASKS</menu>
 		<submenu>
 			<!--
 				Note that all & must be escaped to &amp; for the file to be valid
 				XML and be parsed by the installer
 			-->
+			<menu view="tasks">COM_PP_MENU_TASKS</menu>
 			<menu view="sections">COM_PP_MENU_SECTIONS</menu>
 			<menu view="objects">COM_PP_MENU_OBJECTS</menu>
 			<menu view="task_types">COM_PP_MENU_TASK_TYPES</menu>

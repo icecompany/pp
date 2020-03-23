@@ -3,9 +3,9 @@ defined('_JEXEC') or die;
 jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
-class JFormFieldTask_type extends JFormFieldList
+class JFormFieldTasktype extends JFormFieldList
 {
-    protected $type = 'Task_type';
+    protected $type = 'Tasktype';
     protected $loadExternally = 0;
 
     protected function getOptions()
