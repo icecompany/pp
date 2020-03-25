@@ -8,7 +8,7 @@ JHtml::_('formbehavior.chosen', 'select');
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('script', $this->script);
-HTMLHelper::_('script', 'com_pp/task.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_pp/operation.js', array('version' => 'auto', 'relative' => true));
 ?>
 <form action="<?php echo PpHelper::getActionUrl(); ?>"
       method="post" name="adminForm" id="adminForm" xmlns="http://www.w3.org/1999/html" class="form-validate">
@@ -22,7 +22,7 @@ HTMLHelper::_('script', 'com_pp/task.js', array('version' => 'auto', 'relative' 
                         <div><?php echo $this->loadTemplate('general'); ?></div>
                     </div>
                     <div class="span6">
-                        <div><?php echo $this->loadTemplate('operations'); ?></div>
+
                     </div>
                 </div>
                 <?php echo JHtml::_('bootstrap.endTab'); ?>

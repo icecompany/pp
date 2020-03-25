@@ -13,6 +13,8 @@ class TablePpOperations extends Table
     var $date_close = null;
     var $task = null;
     var $result = null;
+    var $checked_out = null;
+    var $checked_out_time = null;
 
 	public function __construct(JDatabaseDriver $db)
 	{

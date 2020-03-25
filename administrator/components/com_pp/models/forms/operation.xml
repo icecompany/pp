@@ -2,6 +2,13 @@
 <form addrulepath="/administrator/components/com_pp/models/rules">
     <fieldset name="general">
         <field
+                name="parent_title"
+                label="COM_PP_FORM_OPERATION_PARENT_TITLE_LABEL"
+                description="COM_PP_FORM_OPERATION_PARENT_TITLE_DESC"
+                readonly="true"
+                class="span12"
+        />
+        <field
                 name="task"
                 type="text"
                 label="COM_PP_FORM_OPERATION_TITLE_LABEL"
