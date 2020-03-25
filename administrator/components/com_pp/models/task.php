@@ -1,6 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\ListModel;
 
 class PpModelTask extends AdminModel {
 
@@ -12,6 +13,9 @@ class PpModelTask extends AdminModel {
             $item->date_end = JDate::getInstance(time() + 86400 * 7)->format("Y-m-d");
             $item->managerID = JFactory::getUser()->id;
         }
+        else {
+            $item->operations = $this->getOperations($item->id);
+        }
         return $item;
     }
 
@@ -21,6 +25,13 @@ class PpModelTask extends AdminModel {
         $data['date_end'] = JDate::getInstance($data['date_end'])->toSql();
         if (!empty($data['result'])) $data['date_close'] = JDate::getInstance()->toSql();
         return parent::save($data);
+    }
+
+    public function getOperations(int $taskID)
+    {
+        $model = ListModel::getInstance('Operations', 'PpModel', ['taskID' => $taskID]);
+        $items = $model->getItems();
+        return $items['items'];
     }
 
     public function getTable($name = 'Plan', $prefix = 'TablePp', $options = array())
