@@ -90,6 +90,10 @@ class PpModelTasks extends ListModel
         if (is_numeric($manager)) {
             $query->where("t.managerID = {$this->_db->q($manager)}");
         }
+        $director = $this->getState('filter.director');
+        if (is_numeric($director)) {
+            $query->where("t.directorID = {$this->_db->q($director)}");
+        }
 
         $query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
         $this->setState('list.limit', $limit);
@@ -131,6 +135,8 @@ class PpModelTasks extends ListModel
         $this->setState('filter.search', $search);
         $manager = $this->getUserStateFromRequest($this->context . '.filter.manager', 'filter_manager');
         $this->setState('filter.manager', $manager);
+        $director = $this->getUserStateFromRequest($this->context . '.filter.director', 'filter_director');
+        $this->setState('filter.director', $director);
         $type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type');
         $this->setState('filter.type', $type);
         $section = $this->getUserStateFromRequest($this->context . '.filter.section', 'filter_section');
@@ -155,6 +161,7 @@ class PpModelTasks extends ListModel
     {
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . $this->getState('filter.manager');
+        $id .= ':' . $this->getState('filter.director');
         $id .= ':' . $this->getState('filter.type');
         $id .= ':' . $this->getState('filter.section');
         $id .= ':' . $this->getState('filter.parent');

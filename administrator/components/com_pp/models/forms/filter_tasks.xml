@@ -47,13 +47,22 @@
             <option value="">COM_PP_FILTER_SELECT_MANAGER</option>
         </field>
         <field
+                name="director"
+                type="manager"
+                label="COM_PP_FILTER_SELECT_DIRECTOR"
+                description="COM_PP_FILTER_SELECT_DIRECTOR"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PP_FILTER_SELECT_DIRECTOR</option>
+        </field>
+        <field
                 name="status"
                 type="list"
                 label="COM_PP_FILTER_SELECT_STATUS"
                 description="COM_PP_FILTER_SELECT_STATUS"
                 onchange="this.form.submit();"
+                multiple="true"
                 >
-            <option value="">COM_PP_FILTER_SELECT_STATUS</option>
             <option value="-2">COM_PP_TASK_STATUS_-2</option>
             <option value="1">COM_PP_TASK_STATUS_1</option>
             <option value="2">COM_PP_TASK_STATUS_2</option>

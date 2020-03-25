@@ -77,11 +77,13 @@ class PpModelSections extends ListModel
             $arr = ['items' => []];
             $arr['id'] = $item->id;
             $arr['title'] = $item->title;
+            if (!empty($item->parent)) $arr['title'] = "- {$arr['title']}";
             $arr['ordering'] = $item->ordering;
             $arr['manager'] = $item->manager;
             $arr['parent'] = $item->parent;
             $url = JRoute::_("index.php?option={$this->option}&amp;task=section.edit&amp;id={$item->id}");
-            $arr['edit_link'] = JHtml::link($url, $item->title);
+            $style = (empty($item->parent)) ? 'font-weight: bold;' : '';
+            $arr['edit_link'] = JHtml::link($url, $arr['title'], ['style' => $style]);
             $result['items'][] = $arr;
         }
         return $result;
