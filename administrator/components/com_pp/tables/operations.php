@@ -20,4 +20,9 @@ class TablePpOperations extends Table
 	{
 		parent::__construct('#__mkv_pp_operations', 'id', $db);
 	}
+
+    public function store($updateNulls = true)
+    {
+        return parent::store($updateNulls);
+    }
 }

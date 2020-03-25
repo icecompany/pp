@@ -22,4 +22,9 @@ class TablePpPlan extends Table
 	{
 		parent::__construct('#__mkv_pp_plan', 'id', $db);
 	}
+
+	public function store($updateNulls = true)
+    {
+        return parent::store($updateNulls);
+    }
 }

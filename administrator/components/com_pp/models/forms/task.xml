@@ -51,9 +51,11 @@
                 type="Object"
                 label="COM_PP_FORM_TASK_OBJECT_LABEL"
                 description="COM_PP_FORM_TASK_OBJECT_DESC"
-                required="true"
                 class="span12"
-        />
+                default=""
+        >
+                <option value="">COM_PP_FILTER_SELECT_OBJECT</option>
+        </field>
         <field
                 name="managerID"
                 type="manager"

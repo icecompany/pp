@@ -14,4 +14,9 @@ class TablePpSections extends Table
 	{
 		parent::__construct('#__mkv_pp_sections', 'id', $db);
 	}
+
+    public function store($updateNulls = true)
+    {
+        return parent::store($updateNulls);
+    }
 }
