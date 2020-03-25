@@ -6,7 +6,11 @@ class PpModelSection extends AdminModel {
 
     public function getItem($pk = null)
     {
-        return parent::getItem($pk);
+        $item = parent::getItem($pk);
+        if ($item->id === null) {
+            $item->managerID = JFactory::getUser()->id;
+        }
+        return $item;
     }
 
     public function save($data)
