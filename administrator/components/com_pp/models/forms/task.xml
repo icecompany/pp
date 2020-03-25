@@ -64,7 +64,7 @@
         />
         <field
                 name="directorID"
-                type="manager"
+                type="director"
                 label="COM_PP_FORM_TASK_DIRECTOR_LABEL"
                 description="COM_PP_FORM_TASK_DIRECTOR_DESC"
                 required="true"

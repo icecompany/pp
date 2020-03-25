@@ -3,9 +3,9 @@ defined('_JEXEC') or die;
 jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
-class JFormFieldManager extends JFormFieldList
+class JFormFieldDirector extends JFormFieldList
 {
-    protected $type = 'Manager';
+    protected $type = 'Director';
     protected $loadExternally = 0;
 
     protected function getOptions()
@@ -38,7 +38,7 @@ class JFormFieldManager extends JFormFieldList
     public function getUserIDs()
     {
         $config = JComponentHelper::getParams('com_pp');
-        $groupID = $config->get('groups_managers', 1);
+        $groupID = $config->get('groups_directors', 1);
         $db =& JFactory::getDbo();
         $query = $db->getQuery(true);
         $query

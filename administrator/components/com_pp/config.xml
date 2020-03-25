@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<fieldset name="groups" label="COM_PP_SETTINGS_GROUPS_LABEL" description="COM_PP_SETTINGS_GROUPS_DESC">
+		<field name="groups_managers"
+			   type="usergroup"
+			   label="COM_PP_SETTINGS_GROUPS_MANAGERS_LABEL"
+			   description="COM_PP_SETTINGS_GROUPS_MANAGERS_DESC"
+			   component="com_pp"
+			   required="true"
+			   section="component">
+		</field>
+		<field name="groups_directors"
+			   type="usergroup"
+			   label="COM_PP_SETTINGS_GROUPS_DIRECTORS_LABEL"
+			   description="COM_PP_SETTINGS_GROUPS_DIRECTORS_DESC"
+			   component="com_pp"
+			   required="true"
+			   section="component">
+		</field>
+	</fieldset>
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
 		<field name="rules"
 			   type="rules"

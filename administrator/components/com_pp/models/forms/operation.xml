@@ -30,7 +30,7 @@
         />
         <field
                 name="directorID"
-                type="manager"
+                type="director"
                 label="COM_PP_FORM_OPERATION_DIRECTOR_LABEL"
                 description="COM_PP_FORM_OPERATION_DIRECTOR_DESC"
                 required="true"

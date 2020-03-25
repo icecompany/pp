@@ -25,7 +25,7 @@
         </field>
         <field
                 name="managerID"
-                type="manager"
+                type="director"
                 label="COM_PP_FORM_SECTION_DIRECTOR_LABEL"
                 description="COM_PP_FORM_SECTION_DIRECTOR_DESC"
                 required="true"

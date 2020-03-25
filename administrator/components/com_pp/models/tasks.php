@@ -114,8 +114,10 @@ class PpModelTasks extends ListModel
             $arr['section'] = $item->section;
             $arr['parent'] = $item->parent;
             $arr['object'] = $item->object;
-            $arr['director'] = $item->director;
-            $arr['manager'] = $item->manager;
+            $manager = explode(" ", $item->manager);
+            $director = explode(" ", $item->director);
+            $arr['director'] = $director[0];
+            $arr['manager'] = $manager[0];
             $arr['status'] = JText::sprintf("COM_PP_TASK_STATUS_{$item->status}");
             $date_start = JDate::getInstance($item->date_start);
             $date_end = JDate::getInstance($item->date_end);
