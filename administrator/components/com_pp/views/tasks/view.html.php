@@ -31,6 +31,7 @@ class PpViewTasks extends HtmlView
     {
         JToolBarHelper::title(JText::sprintf('COM_PP_MENU_TASKS'), 'calendar');
 
+        if (JFactory::getApplication()->input->getBool('back', false)) JToolbarHelper::back();
         if (PpHelper::canDo('core.create'))
         {
             JToolbarHelper::addNew('task.add');

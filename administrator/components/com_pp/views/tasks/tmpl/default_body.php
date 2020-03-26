@@ -15,9 +15,6 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo $item['status']; ?>
         </td>
         <td>
-            <?php echo $item['edit_link']; ?>
-        </td>
-        <td>
             <?php echo $item['parent']; ?>
         </td>
         <td>

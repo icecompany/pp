@@ -14,9 +14,6 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
         <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_TASKS_STATUS', 'status', $listDirn, $listOrder); ?>
     </th>
     <th>
-        <?php echo JText::sprintf('JTOOLBAR_EDIT'); ?>
-    </th>
-    <th>
         <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_TASKS_PARENT', 'parent', $listDirn, $listOrder); ?>
     </th>
     <th>
