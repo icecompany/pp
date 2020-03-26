@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldpath="/administrator/components/com_prj/models/fields">
+    <fields name="filter">
+        <field
+                name="search"
+                type="text"
+                label="COM_PP_FILTER_TASKS"
+                description="COM_PP_FILTER_TASKS"
+                hint="COM_PP_FILTER_TASKS"
+                autocomplete="off"
+                class="js-stools-search-string"
+        />
+        <field
+                name="project"
+                type="Project"
+                label="COM_PP_FILTER_SELECT_PROJECT"
+                description="COM_PP_FILTER_SELECT_PROJECT"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PP_FILTER_SELECT_PROJECT</option>
+        </field>
+        <field
+                name="manager"
+                type="manager"
+                label="COM_PP_FILTER_SELECT_MANAGER"
+                description="COM_PP_FILTER_SELECT_MANAGER"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PP_FILTER_SELECT_MANAGER</option>
+        </field>
+        <field
+                name="director"
+                type="director"
+                label="COM_PP_FILTER_SELECT_DIRECTOR"
+                description="COM_PP_FILTER_SELECT_DIRECTOR"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PP_FILTER_SELECT_DIRECTOR</option>
+        </field>
+        <field
+                name="status"
+                type="list"
+                label="COM_PP_FILTER_SELECT_STATUS"
+                description="COM_PP_FILTER_SELECT_STATUS"
+                onchange="this.form.submit();"
+                multiple="true"
+                >
+            <option value="-2">COM_PP_TASK_STATUS_-2</option>
+            <option value="1">COM_PP_TASK_STATUS_1</option>
+            <option value="2">COM_PP_TASK_STATUS_2</option>
+            <option value="3">COM_PP_TASK_STATUS_3</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field
+                name="fullordering"
+                type="list"
+                label="COM_PP_FILTER_SELECT_FULL_ORDERING"
+                description="COM_PP_FILTER_SELECT_FULL_ORDERING_DESC"
+                onchange="this.form.submit();"
+                default="o.ordering asc"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="p.title ASC">COM_PP_SORTING_PROJECT_ASC</option>
+            <option value="p.title DESC">COM_PP_SORTING_PROJECT_DESC</option>
+            <option value="tt.title ASC">COM_PP_SORTING_TYPE_ASC</option>
+            <option value="tt.title DESC">COM_PP_SORTING_TYPE_DESC</option>
+            <option value="manager ASC">COM_PP_SORTING_MANAGER_ASC</option>
+            <option value="manager DESC">COM_PP_SORTING_MANAGER_DESC</option>
+            <option value="director ASC">COM_PP_SORTING_DIRECTOR_ASC</option>
+            <option value="director DESC">COM_PP_SORTING_DIRECTOR_DESC</option>
+            <option value="section ASC">COM_PP_SORTING_SECTION_ASC</option>
+            <option value="section DESC">COM_PP_SORTING_SECTION_DESC</option>
+            <option value="parent ASC">COM_PP_SORTING_PARENT_ASC</option>
+            <option value="parent DESC">COM_PP_SORTING_PARENT_DESC</option>
+            <option value="object ASC">COM_PP_SORTING_OBJECT_ASC</option>
+            <option value="object DESC">COM_PP_SORTING_OBJECT_DESC</option>
+            <option value="t.date_start ASC">COM_PP_SORTING_DATE_START_ASC</option>
+            <option value="t.date_start DESC">COM_PP_SORTING_DATE_START_DESC</option>
+            <option value="t.date_end ASC">COM_PP_SORTING_DATE_END_ASC</option>
+            <option value="t.date_end DESC">COM_PP_SORTING_DATE_END_DESC</option>
+            <option value="t.status ASC">COM_PP_SORTING_STATUS_ASC</option>
+            <option value="t.status DESC">COM_PP_SORTING_STATUS_DESC</option>
+            <option value="t.id ASC">COM_PP_SORTING_ID_ASC</option>
+            <option value="t.id DESC">COM_PP_SORTING_ID_DESC</option>
+        </field>
+        <field
+                name="limit"
+                type="limitbox"
+                class="input-mini"
+                default="0"
+                label="COM_PP_FILTER_SELECT_LIMIT"
+                description="COM_PP_FILTER_SELECT_LIMIT_DESC"
+                onchange="this.form.submit();"
+        />
+    </fields>
+</form>

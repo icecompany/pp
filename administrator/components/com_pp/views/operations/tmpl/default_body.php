@@ -12,19 +12,10 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo ++$ii; ?>
         </td>
         <td>
-            <?php echo $item['status']; ?>
+            <?php echo $item['date_operation']; ?>
         </td>
         <td>
-            <?php echo $item['edit_link']; ?>
-        </td>
-        <td>
-            <?php echo $item['parent']; ?>
-        </td>
-        <td>
-            <?php echo $item['section']; ?>
-        </td>
-        <td>
-            <?php echo $item['operations_link']; ?>
+            <?php echo $item['task']; ?>
         </td>
         <td>
             <?php echo $item['result']; ?>
@@ -33,16 +24,7 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo $item['manager']; ?>
         </td>
         <td>
-            <?php echo $item['director']; ?>
-        </td>
-        <td>
-            <?php echo $item['date_close']; ?>
-        </td>
-        <td>
-            <?php echo $item['date_start']; ?>
-        </td>
-        <td>
-            <?php echo $item['date_end']; ?>
+            <?php echo $item['parent']; ?>
         </td>
         <td>
             <?php echo $item['id']; ?>

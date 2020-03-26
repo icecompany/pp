@@ -13,6 +13,8 @@ class PpModelOperations extends ListModel
                 'o.title',
                 'o.ordering',
                 'search',
+                'manager',
+                'director',
             );
         }
         parent::__construct($config);
@@ -50,6 +52,22 @@ class PpModelOperations extends ListModel
                     $query->where("(o.task like {$text} or o.result like {$text})");
                 }
             }
+            $query
+                ->select("o.date_close, u1.name as manager, u2.name as director")
+                ->leftJoin("#__users u1 on u1.id = o.managerID")
+                ->leftJoin("#__users u2 on u2.id = o.directorID");
+            $taskID = JFactory::getApplication()->input->getInt('taskID', 0);
+            if ($taskID > 0) {
+                $query->where("o.taskID = {$this->_db->q($taskID)}");
+            }
+            $manager = $this->getState('filter.manager');
+            if (is_numeric($manager)) {
+                $query->where("t.managerID = {$this->_db->q($manager)}");
+            }
+            $director = $this->getState('filter.director');
+            if (is_numeric($director)) {
+                $query->where("t.directorID = {$this->_db->q($director)}");
+            }
         }
         else {
             $query->where("o.taskID = {$this->_db->q($this->taskID)}");
@@ -74,6 +92,8 @@ class PpModelOperations extends ListModel
             $arr['date_close'] = (!empty($item->date_close)) ? JDate::getInstance($item->date_close)->format("d.m.Y") : '';
             $arr['task'] = $item->task;
             $arr['result'] = $item->result;
+            $arr['manager'] = $item->manager;
+            $arr['director'] = $item->director;
             $url = JRoute::_("index.php?option={$this->option}&amp;task=operation.edit&amp;id={$item->id}&amp;return={$return}");
             $arr['edit_link'] = JHtml::link($url, $item->task);
             $result['items'][] = $arr;
@@ -81,10 +101,26 @@ class PpModelOperations extends ListModel
         return $result;
     }
 
+    public function getParentTask()
+    {
+        $taskID = JFactory::getApplication()->input->getInt('taskID', 0);
+        if ($taskID > 0) {
+            $table = parent::getTable('Plan', 'TablePp');
+            $table->load($taskID);
+            return $table->task ?? '';
+        }
+        else return '';
+    }
+
     protected function populateState($ordering = 'o.date_operation', $direction = 'desc')
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
+        $manager = $this->getUserStateFromRequest($this->context . '.filter.manager', 'filter_manager');
+        $this->setState('filter.manager', $manager);
+        $director = $this->getUserStateFromRequest($this->context . '.filter.director', 'filter_director');
+        $this->setState('filter.director', $director);
+
         parent::populateState($ordering, $direction);
         PpHelper::check_refresh();
     }
@@ -92,6 +128,8 @@ class PpModelOperations extends ListModel
     protected function getStoreId($id = '')
     {
         $id .= ':' . $this->getState('filter.search');
+        $id .= ':' . $this->getState('filter.manager');
+        $id .= ':' . $this->getState('filter.director');
         return parent::getStoreId($id);
     }
 
