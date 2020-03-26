@@ -41,7 +41,7 @@ class PpModelTasks extends ListModel
         $limit = (!$this->export) ? $this->getState('list.limit') : 0;
 
         $query
-            ->select("t.id, t.date_start, t.date_end, t.date_close, t.task, t.result")
+            ->select("t.id, t.date_start, t.date_end, t.date_close, t.task")
             ->select("if(t.date_start < current_date and t.date_end < current_date, if (t.date_close is not null, 3, -2), if (t.date_start <= current_date and t.date_end >= current_date, 1, 2)) as status")
             ->select("tt.title as type")
             ->select("s.title as section")
@@ -109,7 +109,6 @@ class PpModelTasks extends ListModel
             $arr = ['items' => []];
             $arr['id'] = $item->id;
             $arr['task'] = $item->task;
-            $arr['result'] = $item->result;
             $arr['type'] = $item->type;
             $arr['section'] = $item->section;
             $arr['parent'] = $item->parent;

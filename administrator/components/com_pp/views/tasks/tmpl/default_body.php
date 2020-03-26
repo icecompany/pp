@@ -24,9 +24,6 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo $item['operations_link']; ?>
         </td>
         <td>
-            <?php echo $item['result']; ?>
-        </td>
-        <td>
             <?php echo $item['manager']; ?>
         </td>
         <td>

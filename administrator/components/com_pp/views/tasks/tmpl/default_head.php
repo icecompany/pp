@@ -23,9 +23,6 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
         <?php echo JText::sprintf('COM_PP_HEAD_TASKS_TASK'); ?>
     </th>
     <th>
-        <?php echo JText::sprintf('COM_PP_HEAD_TASKS_RESULT'); ?>
-    </th>
-    <th>
         <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_TASKS_MANAGER', 'manager', $listDirn, $listOrder); ?>
     </th>
     <th>
