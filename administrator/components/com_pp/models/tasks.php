@@ -126,6 +126,7 @@ class PpModelTasks extends ListModel
             $arr['date_close'] = (!empty($item->date_close)) ? JDate::getInstance($item->date_close)->format("d.m.Y") : '';
             $url = JRoute::_("index.php?option={$this->option}&amp;task=task.edit&amp;id={$item->id}");
             $arr['edit_link'] = JHtml::link($url, JText::sprintf('JTOOLBAR_EDIT'));
+            $url = JRoute::_("index.php?option={$this->option}&amp;view=operations");
             $result['items'][] = $arr;
         }
         return $result;

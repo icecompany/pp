@@ -33,7 +33,7 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo ++$ii; ?>
         </td>
         <td>
-            <?php echo $item['edit_link']; ?>
+            <?php echo $item['tasks_link']; ?>
         </td>
         <td>
             <?php echo $item['manager']; ?>
