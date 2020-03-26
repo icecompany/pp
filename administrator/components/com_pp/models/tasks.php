@@ -133,6 +133,17 @@ class PpModelTasks extends ListModel
         return $result;
     }
 
+    public function getSectionTitle()
+    {
+        $sectionID = $this->state->get('filter.section');
+        if (is_numeric($sectionID)) {
+            $table = parent::getTable('Sections', 'TablePp');
+            $table->load($sectionID);
+            return $table->title ?? '';
+        }
+        else return '';
+    }
+
     protected function populateState($ordering = 'status', $direction = 'asc')
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');

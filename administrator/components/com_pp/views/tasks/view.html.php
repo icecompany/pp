@@ -6,7 +6,7 @@ defined('_JEXEC') or die;
 class PpViewTasks extends HtmlView
 {
     protected $sidebar = '';
-    public $items, $pagination, $uid, $state, $filterForm, $activeFilters;
+    public $items, $pagination, $uid, $state, $filterForm, $activeFilters, $sectionTitle;
 
     public function display($tpl = null)
     {
@@ -15,6 +15,7 @@ class PpViewTasks extends HtmlView
         $this->state = $this->get('State');
         $this->filterForm = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
+        $this->sectionTitle = $this->get('SectionTitle');
 
         // Show the toolbar
         $this->toolbar();
@@ -29,7 +30,10 @@ class PpViewTasks extends HtmlView
 
     private function toolbar()
     {
-        JToolBarHelper::title(JText::sprintf('COM_PP_MENU_TASKS'), 'calendar');
+        $title = JText::sprintf('COM_PP_MENU_TASKS');
+        if (!empty($this->sectionTitle)) $title = JText::sprintf('COM_PP_MENU_TASKS_IN_SECTION', $this->sectionTitle);
+
+        JToolBarHelper::title($title, 'calendar');
 
         if (JFactory::getApplication()->input->getBool('back', false)) JToolbarHelper::back();
         if (PpHelper::canDo('core.create'))
