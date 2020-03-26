@@ -15,7 +15,7 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo $item['date_operation']; ?>
         </td>
         <td>
-            <?php echo $item['task']; ?>
+            <?php echo $item['edit_link']; ?>
         </td>
         <td>
             <?php echo $item['result']; ?>
@@ -24,7 +24,7 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo $item['manager']; ?>
         </td>
         <td>
-            <?php echo $item['parent']; ?>
+            <?php echo $item['director']; ?>
         </td>
         <td>
             <?php echo $item['id']; ?>

@@ -20,10 +20,10 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
         <?php echo JText::sprintf('COM_PP_HEAD_OPERATIONS_RESULT');?>
     </th>
     <th>
-        <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_DIRECTOR', 'manager', $listDirn, $listOrder); ?>
+        <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_MANAGER', 'manager', $listDirn, $listOrder); ?>
     </th>
     <th>
-        <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_PARENT', 'parent', $listDirn, $listOrder); ?>
+        <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_DIRECTOR', 'director', $listDirn, $listOrder); ?>
     </th>
     <th style="width: 1%;">
         <?php echo JHtml::_('searchtools.sort', 'ID', 's.id', $listDirn, $listOrder); ?>
