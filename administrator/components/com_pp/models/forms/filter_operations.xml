@@ -11,21 +11,22 @@
                 class="js-stools-search-string"
         />
         <field
-                name="project"
-                type="Project"
-                label="COM_PP_FILTER_SELECT_PROJECT"
-                description="COM_PP_FILTER_SELECT_PROJECT"
+                name="date"
+                type="calendar"
+                label="COM_PP_FILTER_SELECT_DATE"
+                description="COM_PP_FILTER_SELECT_DATE"
+                hint="COM_PP_FILTER_SELECT_DATE"
+                format="%d.%m.%Y"
                 onchange="this.form.submit();"
-                >
-            <option value="">COM_PP_FILTER_SELECT_PROJECT</option>
-        </field>
+                filter="none"
+        />
         <field
                 name="manager"
                 type="manager"
                 label="COM_PP_FILTER_SELECT_MANAGER"
                 description="COM_PP_FILTER_SELECT_MANAGER"
                 onchange="this.form.submit();"
-                >
+        >
             <option value="">COM_PP_FILTER_SELECT_MANAGER</option>
         </field>
         <field
@@ -34,7 +35,7 @@
                 label="COM_PP_FILTER_SELECT_DIRECTOR"
                 description="COM_PP_FILTER_SELECT_DIRECTOR"
                 onchange="this.form.submit();"
-                >
+        >
             <option value="">COM_PP_FILTER_SELECT_DIRECTOR</option>
         </field>
         <field
@@ -44,7 +45,7 @@
                 description="COM_PP_FILTER_SELECT_STATUS"
                 onchange="this.form.submit();"
                 multiple="true"
-                >
+        >
             <option value="-2">COM_PP_TASK_STATUS_-2</option>
             <option value="1">COM_PP_TASK_STATUS_1</option>
             <option value="3">COM_PP_TASK_STATUS_3</option>

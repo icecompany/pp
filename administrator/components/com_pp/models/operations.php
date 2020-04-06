@@ -14,6 +14,7 @@ class PpModelOperations extends ListModel
                 'o.ordering',
                 'search',
                 'manager',
+                'date',
                 'status',
                 'director',
             );
@@ -79,6 +80,11 @@ class PpModelOperations extends ListModel
         else {
             $query->where("o.taskID = {$this->_db->q($this->taskID)}");
         }
+        $date = $this->getState('filter.date');
+        if (!empty($date)) {
+            $date = JDate::getInstance($date)->toSql();
+            $query->where("o.date_operation = {$this->_db->q($date)}");
+        }
 
         $query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
         $this->setState('list.limit', $limit);
@@ -134,6 +140,8 @@ class PpModelOperations extends ListModel
         $this->setState('filter.manager', $manager);
         $director = $this->getUserStateFromRequest($this->context . '.filter.director', 'filter_director');
         $this->setState('filter.director', $director);
+        $date = $this->getUserStateFromRequest($this->context . '.filter.date', 'filter_date');
+        $this->setState('filter.date', $date);
         $status = $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status');
         $this->setState('filter.status', $status);
 
@@ -146,6 +154,7 @@ class PpModelOperations extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . $this->getState('filter.manager');
         $id .= ':' . $this->getState('filter.director');
+        $id .= ':' . $this->getState('filter.date');
         $id .= ':' . $this->getState('filter.status');
         return parent::getStoreId($id);
     }
