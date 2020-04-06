@@ -14,6 +14,7 @@ class PpModelOperations extends ListModel
                 'o.ordering',
                 'search',
                 'manager',
+                'status',
                 'director',
             );
         }
@@ -36,6 +37,7 @@ class PpModelOperations extends ListModel
 
         $query
             ->select("o.id, o.date_operation, o.task, o.result")
+            ->select("if(o.date_operation < current_date and o.date_close is null, -2, if(o.date_operation < current_date and o.date_close is not null, 3, if(o.date_operation >= current_date, if(o.date_close is not null, 3, 1),0))) as status")
             ->from("#__mkv_pp_operations o");
 
         if ($this->taskID === 0) {
@@ -68,6 +70,11 @@ class PpModelOperations extends ListModel
             if (is_numeric($director)) {
                 $query->where("t.directorID = {$this->_db->q($director)}");
             }
+            $status = $this->getState('filter.status');
+            if (is_array($status) && !empty($status)) {
+                $status = implode(", ", $status);
+                $query->having("status in ({$this->_db->q($status)})");
+            }
         }
         else {
             $query->where("o.taskID = {$this->_db->q($this->taskID)}");
@@ -94,6 +101,8 @@ class PpModelOperations extends ListModel
             $arr['result'] = $item->result;
             $arr['manager'] = $item->manager;
             $arr['director'] = $item->director;
+            $color = ((int) $item->status !== -2) ? 'black' : 'red';
+            $arr['status'] = "<span style='color:{$color}'>".JText::sprintf("COM_PP_OPERATION_STATUS_{$item->status}")."</span>";
             $url = JRoute::_("index.php?option={$this->option}&amp;task=operation.edit&amp;id={$item->id}&amp;return={$return}");
             $arr['edit_link'] = JHtml::link($url, $item->task);
             $result['items'][] = $arr;
@@ -112,7 +121,12 @@ class PpModelOperations extends ListModel
         else return '';
     }
 
-    protected function populateState($ordering = 'o.date_operation', $direction = 'desc')
+    public function getTaskID()
+    {
+        return $taskID = JFactory::getApplication()->input->getInt('taskID', 0);
+    }
+
+    protected function populateState($ordering = 'status', $direction = 'asc')
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
@@ -120,6 +134,8 @@ class PpModelOperations extends ListModel
         $this->setState('filter.manager', $manager);
         $director = $this->getUserStateFromRequest($this->context . '.filter.director', 'filter_director');
         $this->setState('filter.director', $director);
+        $status = $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status');
+        $this->setState('filter.status', $status);
 
         parent::populateState($ordering, $direction);
         PpHelper::check_refresh();
@@ -130,6 +146,7 @@ class PpModelOperations extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . $this->getState('filter.manager');
         $id .= ':' . $this->getState('filter.director');
+        $id .= ':' . $this->getState('filter.status');
         return parent::getStoreId($id);
     }
 

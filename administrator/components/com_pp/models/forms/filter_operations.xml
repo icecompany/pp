@@ -47,7 +47,6 @@
                 >
             <option value="-2">COM_PP_TASK_STATUS_-2</option>
             <option value="1">COM_PP_TASK_STATUS_1</option>
-            <option value="2">COM_PP_TASK_STATUS_2</option>
             <option value="3">COM_PP_TASK_STATUS_3</option>
         </field>
     </fields>

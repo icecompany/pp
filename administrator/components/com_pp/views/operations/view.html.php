@@ -6,7 +6,7 @@ defined('_JEXEC') or die;
 class PpViewOperations extends HtmlView
 {
     protected $sidebar = '';
-    public $items, $pagination, $uid, $state, $filterForm, $activeFilters, $parentTask;
+    public $items, $pagination, $uid, $state, $filterForm, $activeFilters, $parentTask, $taskID;
 
     public function display($tpl = null)
     {
@@ -16,6 +16,10 @@ class PpViewOperations extends HtmlView
         $this->filterForm = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
         $this->parentTask = $this->get('ParentTask');
+        $this->taskID = $this->get('TaskID');
+        if ($this->taskID > 0) {
+            $this->filterForm->removeField('status', 'filter');
+        }
 
         // Show the toolbar
         $this->toolbar();

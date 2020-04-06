@@ -12,6 +12,9 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo ++$ii; ?>
         </td>
         <td>
+            <?php echo $item['status']; ?>
+        </td>
+        <td>
             <?php echo $item['date_operation']; ?>
         </td>
         <td>

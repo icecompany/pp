@@ -11,6 +11,9 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
         №
     </th>
     <th>
+        <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_OPERATIONS_STATUS', 'status', $listDirn, $listOrder); ?>
+    </th>
+    <th>
         <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_OPERATIONS_DATE_OPERATION', 'o.date_operation', $listDirn, $listOrder); ?>
     </th>
     <th>
