@@ -13,6 +13,7 @@ class PpModelTasks extends ListModel
                 'search',
                 'director',
                 'manager',
+                'contractor',
                 'object',
                 'section',
                 'parent',
@@ -49,11 +50,13 @@ class PpModelTasks extends ListModel
             ->select("o.title as object")
             ->select("u1.name as manager")
             ->select("u2.name as director")
+            ->select("c.title as contractor")
             ->from("#__mkv_pp_plan t")
             ->leftJoin("#__mkv_pp_task_types tt on tt.id = t.typeID")
             ->leftJoin("#__mkv_pp_sections s on s.id = t.sectionID")
             ->leftJoin("#__mkv_pp_sections s1 on s1.id = s.parentID")
             ->leftJoin("#__mkv_pp_objects o on o.id = t.objectID")
+            ->leftJoin("#__mkv_companies c on c.id = t.contractorID")
             ->leftJoin("#__users u1 on u1.id = t.managerID")
             ->leftJoin("#__users u2 on u2.id = t.directorID");
         $search = (!$this->export) ? $this->getState('filter.search') : JFactory::getApplication()->input->getString('search', '');
@@ -113,6 +116,7 @@ class PpModelTasks extends ListModel
             $arr['section'] = $item->section;
             $arr['parent'] = $item->parent;
             $arr['object'] = $item->object;
+            $arr['contractor'] = $item->contractor;
             $manager = explode(" ", $item->manager);
             $director = explode(" ", $item->director);
             $arr['director'] = $director[0];

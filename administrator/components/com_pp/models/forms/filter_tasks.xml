@@ -93,6 +93,8 @@
             <option value="parent DESC">COM_PP_SORTING_PARENT_DESC</option>
             <option value="object ASC">COM_PP_SORTING_OBJECT_ASC</option>
             <option value="object DESC">COM_PP_SORTING_OBJECT_DESC</option>
+            <option value="contractor ASC">COM_PP_SORTING_CONTRACTOR_ASC</option>
+            <option value="contractor DESC">COM_PP_SORTING_CONTRACTOR_DESC</option>
             <option value="t.date_start ASC">COM_PP_SORTING_DATE_START_ASC</option>
             <option value="t.date_start DESC">COM_PP_SORTING_DATE_START_DESC</option>
             <option value="t.date_end ASC">COM_PP_SORTING_DATE_END_ASC</option>

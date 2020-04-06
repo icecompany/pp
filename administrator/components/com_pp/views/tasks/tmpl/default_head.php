@@ -29,6 +29,9 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
         <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_TASKS_DIRECTOR', 'director', $listDirn, $listOrder); ?>
     </th>
     <th>
+        <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_TASKS_CONTRACTOR', 'contractor', $listDirn, $listOrder); ?>
+    </th>
+    <th>
         <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_TASKS_DATE_CLOSE', 't.date_close', $listDirn, $listOrder); ?>
     </th>
     <th>

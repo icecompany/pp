@@ -30,6 +30,9 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo $item['director']; ?>
         </td>
         <td>
+            <?php echo $item['contractor']; ?>
+        </td>
+        <td>
             <?php echo $item['date_close']; ?>
         </td>
         <td>

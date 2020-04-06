@@ -73,6 +73,15 @@
                 class="span12"
         />
         <field
+                name="contractorID"
+                type="Contractor"
+                label="COM_PP_FORM_TASK_CONTRACTOR_LABEL"
+                description="COM_PP_FORM_TASK_CONTRACTOR_DESC"
+                class="span12"
+        >
+                <option value="">COM_PP_FILTER_SELECT_CONTRACTOR</option>
+        </field>
+        <field
                 name="date_start"
                 type="calendar"
                 label="COM_PP_FORM_TASK_DATE_START_LABEL"
