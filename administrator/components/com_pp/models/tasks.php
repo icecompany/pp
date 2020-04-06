@@ -87,7 +87,7 @@ class PpModelTasks extends ListModel
         }
         $section = $this->getState('filter.section');
         if (is_numeric($section)) {
-            $query->where("t.sectionID = {$this->_db->q($section)}");
+            $query->where("(t.sectionID = {$this->_db->q($section)} or s.parentID = {$this->_db->q($section)})");
         }
         $manager = $this->getState('filter.manager');
         if (is_numeric($manager)) {
