@@ -38,6 +38,8 @@ class PpModelTasks extends ListModel
         $orderCol = $this->state->get('list.ordering');
         $orderDirn = $this->state->get('list.direction');
 
+        $userID = JFactory::getUser()->id;
+
         //Ограничение длины списка
         $limit = (!$this->export) ? $this->getState('list.limit') : 0;
 
@@ -100,6 +102,8 @@ class PpModelTasks extends ListModel
 
         $query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
         $this->setState('list.limit', $limit);
+
+        $query->where("(s.managerID = {$userID} or s1.managerID = {$userID})");
 
         return $query;
     }

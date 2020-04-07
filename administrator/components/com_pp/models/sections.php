@@ -95,7 +95,7 @@ class PpModelSections extends ListModel
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
-        $manager = $this->getUserStateFromRequest($this->context . '.filter.manager', 'filter_manager');
+        $manager = $this->getUserStateFromRequest($this->context . '.filter.manager', 'filter_manager', JFactory::getUser()->id);
         $this->setState('filter.manager', $manager);
         $parent = $this->getUserStateFromRequest($this->context . '.filter.parent', 'filter_parent');
         $this->setState('filter.parent', $parent);

@@ -12,10 +12,14 @@ class JFormFieldSectionparent extends JFormFieldList
     {
         $db =& JFactory::getDbo();
         $query = $db->getQuery(true);
+
+        $userID = JFactory::getUser()->id;
+
         $query
             ->select("s.id, s.title")
             ->from("`#__mkv_pp_sections` s")
             ->where("s.parentID is null")
+            ->where("s.managerID = {$userID}")
             ->order("s.ordering");
         $result = $db->setQuery($query)->loadObjectList();
 

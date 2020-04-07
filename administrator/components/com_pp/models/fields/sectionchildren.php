@@ -12,11 +12,15 @@ class JFormFieldSectionchildren extends JFormFieldGroupedList
     {
         $db =& JFactory::getDbo();
         $query = $db->getQuery(true);
+
+        $userID = JFactory::getUser()->id;
+
         $query
             ->select("s.id, s.title, s.managerID")
             ->select("s1.title as parent")
             ->from("`#__mkv_pp_sections` s")
             ->leftJoin("#__mkv_pp_sections s1 on s1.id = s.parentID")
+            ->where("s.managerID = {$userID}")
             ->order("s.ordering");
         $result = $db->setQuery($query)->loadObjectList();
 

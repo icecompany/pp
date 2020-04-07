@@ -16,6 +16,8 @@ class PpViewSections extends HtmlView
         $this->filterForm = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
 
+        $this->filterForm->setValue('manager', 'filter', $this->state->get('filter.manager'));
+
         // Show the toolbar
         $this->toolbar();
 
