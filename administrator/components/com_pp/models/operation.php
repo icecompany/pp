@@ -28,7 +28,7 @@ class PpModelOperation extends AdminModel {
 
     public function getTask(int $taskID)
     {
-        $table = $this->getTable('Plan');
+        $table = $this->getTable('Tasks');
         $table->load(['id' => $taskID]);
         return $table;
     }

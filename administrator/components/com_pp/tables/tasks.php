@@ -3,7 +3,7 @@ use Joomla\CMS\Table\Table;
 
 defined('_JEXEC') or die;
 
-class TablePpPlan extends Table
+class TablePpTasks extends Table
 {
     var $id = null;
     var $projectID = null;
@@ -20,7 +20,7 @@ class TablePpPlan extends Table
 
 	public function __construct(JDatabaseDriver $db)
 	{
-		parent::__construct('#__mkv_pp_plan', 'id', $db);
+		parent::__construct('#__mkv_pp_tasks', 'id', $db);
 	}
 
 	public function store($updateNulls = true)

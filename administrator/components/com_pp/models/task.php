@@ -35,7 +35,7 @@ class PpModelTask extends AdminModel {
         return $items['items'];
     }
 
-    public function getTable($name = 'Plan', $prefix = 'TablePp', $options = array())
+    public function getTable($name = 'Tasks', $prefix = 'TablePp', $options = array())
     {
         return JTable::getInstance($name, $prefix, $options);
     }

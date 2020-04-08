@@ -53,7 +53,7 @@ class PpModelTasks extends ListModel
             ->select("u1.name as manager")
             ->select("u2.name as director")
             ->select("c.title as contractor")
-            ->from("#__mkv_pp_plan t")
+            ->from("#__mkv_pp_tasks t")
             ->leftJoin("#__mkv_pp_task_types tt on tt.id = t.typeID")
             ->leftJoin("#__mkv_pp_sections s on s.id = t.sectionID")
             ->leftJoin("#__mkv_pp_sections s1 on s1.id = s.parentID")
@@ -103,7 +103,9 @@ class PpModelTasks extends ListModel
         $query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
         $this->setState('list.limit', $limit);
 
-        $query->where("(s.managerID = {$userID} or s1.managerID = {$userID})");
+        if (!PpHelper::canDo('core.tasks.all')) {
+            $query->where("(s.managerID = {$userID} or s1.managerID = {$userID})");
+        }
 
         return $query;
     }

@@ -120,7 +120,7 @@ class PpModelOperations extends ListModel
     {
         $taskID = JFactory::getApplication()->input->getInt('taskID', 0);
         if ($taskID > 0) {
-            $table = parent::getTable('Plan', 'TablePp');
+            $table = parent::getTable('Tasks', 'TablePp');
             $table->load($taskID);
             return $table->task ?? '';
         }
