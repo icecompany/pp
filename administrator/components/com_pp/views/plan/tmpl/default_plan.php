@@ -4,11 +4,11 @@ defined('_JEXEC') or die;
 $ii = $this->state->get('list.start', 0);
 foreach ($this->items['items'] as $parentID => $parent) :?>
     <tr>
-        <td colspan="20" class="center"><h3><?php echo $this->items['parents'][$parentID];?></h3></td>
+        <td colspan="20"><h3><?php echo $this->items['parents'][$parentID];?></h3></td>
     </tr>
     <?php foreach ($this->items['items'][$parentID] as $sectionID => $section) :?>
         <tr>
-            <td colspan="20" class="center"><h4><?php echo $this->items['sections'][$sectionID];?></h4></td>
+            <td colspan="20"><h4>- <?php echo $this->items['sections'][$sectionID];?></h4></td>
         </tr>
         <?php foreach ($this->items['items'][$parentID][$sectionID] as $i => $item) :?>
             <tr class="row<?php echo $i % 2; ?>">
