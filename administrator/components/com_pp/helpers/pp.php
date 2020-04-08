@@ -7,6 +7,7 @@ class PpHelper
 {
     public function addSubmenu($vName)
     {
+        HTMLHelper::_('sidebar.addEntry', JText::sprintf('COM_PP_MENU_PLAN'), 'index.php?option=com_pp&view=plan', $vName === 'plan');
         HTMLHelper::_('sidebar.addEntry', JText::sprintf('COM_PP_MENU_SECTIONS'), 'index.php?option=com_pp&view=sections', $vName === 'sections');
         HTMLHelper::_('sidebar.addEntry', JText::sprintf('COM_PP_MENU_TASKS'), 'index.php?option=com_pp&view=tasks', $vName === 'tasks');
         HTMLHelper::_('sidebar.addEntry', JText::sprintf('COM_PP_MENU_OPERATIONS'), 'index.php?option=com_pp&view=operations', $vName === 'operations');
@@ -50,6 +51,13 @@ class PpHelper
     {
         $uri = JUri::getInstance();
         $uri->setVar('refresh', '1');
+
+        $view = JFactory::getApplication()->input->getString('view');
+        if ($view === 'plan') {
+            $return = self::getReturnUrl();
+            $uri->setVar('return', $return);
+        }
+
         $query = $uri->getQuery();
         $client = (!JFactory::getApplication()->isClient('administrator')) ? 'site' : 'administrator';
         return JRoute::link($client, "index.php?{$query}");
