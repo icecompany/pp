@@ -61,7 +61,7 @@ class PpHelper
         $view = JFactory::getApplication()->input->getString('view');
         if ($view === 'plan') {
             $return = self::getReturnUrl();
-            $uri->setVar('return', $return);
+            if ($uri->getVar('return', null) === null) $uri->setVar('return', $return);
         }
 
         $query = $uri->getQuery();
