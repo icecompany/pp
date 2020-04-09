@@ -14,12 +14,15 @@ class JFormFieldSection extends JFormFieldList
         $query = $db->getQuery(true);
 
         $userID = JFactory::getUser()->id;
+        $canDo = PpHelper::canDo('core.sections.all');
 
         $query
             ->select("s.id, s.title")
             ->from("`#__mkv_pp_sections` s")
-            ->where("s.managerID = {$userID}")
+            ->where("s.parentID is null")
             ->order("s.ordering");
+        if (!$canDo) $query->where("s.managerID = {$userID}");
+
         $result = $db->setQuery($query)->loadObjectList();
 
         $options = array();
