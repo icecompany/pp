@@ -3,8 +3,10 @@
 defined('_JEXEC') or die;
 $ii = $this->state->get('list.start', 0);
 $sub_section = $this->state->get('filter.sub_section');
+$section = $this->state->get('filter.section');
 foreach ($this->items['sections']['parents'] as $parentID => $parent) :
     if (is_numeric($sub_section) && $parentID != $this->items['sections']['flip'][$sub_section]) continue;
+    if (is_numeric($section) && $section != $parentID) continue;
     ?>
     <tr>
         <td colspan="20"><b><?php echo $parent['title'];?></b></td>
