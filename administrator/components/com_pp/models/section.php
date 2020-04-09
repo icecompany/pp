@@ -9,6 +9,14 @@ class PpModelSection extends AdminModel {
         $item = parent::getItem($pk);
         if ($item->id === null) {
             $item->managerID = JFactory::getUser()->id;
+            $uri = JUri::getInstance($_SERVER['HTTP_REFERER']);
+            $section = $uri->getVar('filter_section', 0);
+            if ($section > 0) {
+                $item->parentID = $section;
+                $table = $this->getTable();
+                $table->load($section);
+                $item->managerID = $table->managerID;
+            }
         }
         return $item;
     }

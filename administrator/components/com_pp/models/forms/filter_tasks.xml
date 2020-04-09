@@ -29,8 +29,17 @@
             <option value="">COM_PP_FILTER_SELECT_OBJECT</option>
         </field>
         <field
+                name="sub_section"
+                type="Subsection"
+                label="COM_PP_FILTER_SELECT_SUB_SECTION"
+                description="COM_PP_FILTER_SELECT_SUB_SECTION"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PP_FILTER_SELECT_SUB_SECTION</option>
+        </field>
+        <field
                 name="section"
-                type="Sectionchildren"
+                type="Section"
                 label="COM_PP_FILTER_SELECT_SECTION"
                 description="COM_PP_FILTER_SELECT_SECTION"
                 onchange="this.form.submit();"

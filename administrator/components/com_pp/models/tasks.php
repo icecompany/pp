@@ -16,6 +16,7 @@ class PpModelTasks extends ListModel
                 'contractor',
                 'object',
                 'section',
+                'sub_section',
                 'parent',
                 'type',
                 'project',
@@ -89,7 +90,11 @@ class PpModelTasks extends ListModel
         }
         $section = $this->getState('filter.section');
         if (is_numeric($section)) {
-            $query->where("(t.sectionID = {$this->_db->q($section)} or s.parentID = {$this->_db->q($section)})");
+            $query->where("s.parentID = {$this->_db->q($section)}");
+        }
+        $sub_section = $this->getState('filter.sub_section');
+        if (is_numeric($sub_section)) {
+            $query->where("t.sectionID = {$this->_db->q($sub_section)}");
         }
         $manager = $this->getState('filter.manager');
         if (is_numeric($manager)) {
@@ -166,6 +171,8 @@ class PpModelTasks extends ListModel
         $this->setState('filter.type', $type);
         $section = $this->getUserStateFromRequest($this->context . '.filter.section', 'filter_section');
         $this->setState('filter.section', $section);
+        $sub_section = $this->getUserStateFromRequest($this->context . '.filter.sub_section', 'filter_sub_section');
+        $this->setState('filter.sub_section', $sub_section);
         $parent = $this->getUserStateFromRequest($this->context . '.filter.parent', 'filter_parent');
         $this->setState('filter.parent', $parent);
         $object = $this->getUserStateFromRequest($this->context . '.filter.object', 'filter_object');
@@ -189,6 +196,7 @@ class PpModelTasks extends ListModel
         $id .= ':' . $this->getState('filter.director');
         $id .= ':' . $this->getState('filter.type');
         $id .= ':' . $this->getState('filter.section');
+        $id .= ':' . $this->getState('filter.sub_section');
         $id .= ':' . $this->getState('filter.parent');
         $id .= ':' . $this->getState('filter.object');
         $id .= ':' . $this->getState('filter.date_start');

@@ -48,6 +48,7 @@ class PpViewTasks extends HtmlView
         {
             JToolbarHelper::deleteList('COM_PP_CONFIRM_REMOVE_TASK', 'tasks.delete');
         }
+        if (is_numeric($this->state->get('filter.section'))) JToolBarHelper::custom('section.add', 'pie', '', JText::sprintf('COM_PP_ACTION_LINK_ADD_SECTION'), false);
         if (PpHelper::canDo('core.admin'))
         {
             JToolBarHelper::preferences('com_pp');

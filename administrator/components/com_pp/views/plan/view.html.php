@@ -48,10 +48,7 @@ class PpViewPlan extends HtmlView
         {
             JToolbarHelper::deleteList('COM_PP_CONFIRM_REMOVE_TASK', 'tasks.delete');
         }
-        if (PpHelper::canDo('core.admin'))
-        {
-            JToolBarHelper::custom('section.add', 'grid', '', JText::sprintf('COM_PP_ACTION_LINK_ADD_SECTION'), false);
-        }
+        JToolBarHelper::custom('section.add', 'grid', '', JText::sprintf('COM_PP_ACTION_LINK_ADD_SECTION'), false);
         if (PpHelper::canDo('core.admin'))
         {
             JToolBarHelper::preferences('com_pp');

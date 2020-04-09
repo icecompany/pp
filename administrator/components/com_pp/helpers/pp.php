@@ -59,7 +59,7 @@ class PpHelper
         $uri->setVar('refresh', '1');
 
         $view = JFactory::getApplication()->input->getString('view');
-        if ($view === 'plan') {
+        if ($view === 'plan' || $view === 'tasks') {
             $return = self::getReturnUrl();
             if ($uri->getVar('return', null) === null) $uri->setVar('return', $return);
         }

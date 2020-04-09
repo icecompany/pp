@@ -16,7 +16,7 @@
         />
         <field
                 name="parentID"
-                type="Sectionparent"
+                type="Section"
                 label="COM_PP_FORM_SECTION_PARENT_LABEL"
                 description="COM_PP_FORM_SECTION_PARENT_DESC"
                 class="span12"
