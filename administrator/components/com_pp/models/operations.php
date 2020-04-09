@@ -65,11 +65,11 @@ class PpModelOperations extends ListModel
             }
             $manager = $this->getState('filter.manager');
             if (is_numeric($manager)) {
-                $query->where("t.managerID = {$this->_db->q($manager)}");
+                $query->where("o.managerID = {$this->_db->q($manager)}");
             }
             $director = $this->getState('filter.director');
             if (is_numeric($director)) {
-                $query->where("t.directorID = {$this->_db->q($director)}");
+                $query->where("o.directorID = {$this->_db->q($director)}");
             }
             $status = $this->getState('filter.status');
             if (is_array($status) && !empty($status)) {
