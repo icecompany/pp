@@ -22,8 +22,22 @@ class PpModelOperation extends AdminModel {
     public function save($data)
     {
         $data['date_operation'] = JDate::getInstance($data['date_operation'])->toSql();
+        if (!$this->checkDate($data['taskID'], $data['date_operation'])) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_PP_ERROR_OPERATION_DATE_NOT_RANGE'), 'error');
+            return false;
+        }
         if (!empty($data['result'])) $data['date_close'] = JDate::getInstance()->toSql();
         return parent::save($data);
+    }
+
+    public function checkDate(int $taskID, string $date): bool
+    {
+        $table = parent::getTable('Tasks', 'TablePp');
+        $table->load($taskID);
+        $date = JDate::getInstance($date);
+        $date_start = JDate::getInstance($table->date_start);
+        $date_end = JDate::getInstance($table->date_end);
+        return $date_start <= $date && $date_end >= $date;
     }
 
     public function getTask(int $taskID)
