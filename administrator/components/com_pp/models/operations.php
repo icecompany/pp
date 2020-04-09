@@ -107,7 +107,7 @@ class PpModelOperations extends ListModel
             $arr['result'] = $item->result;
             $arr['manager'] = $item->manager;
             $arr['director'] = $item->director;
-            $color = ((int) $item->status !== -2) ? 'black' : 'red';
+            $color = PpHelper::getTaskColor($item->status);
             $arr['status'] = "<span style='color:{$color}'>".JText::sprintf("COM_PP_OPERATION_STATUS_{$item->status}")."</span>";
             $url = JRoute::_("index.php?option={$this->option}&amp;task=operation.edit&amp;id={$item->id}&amp;return={$return}");
             $arr['edit_link'] = JHtml::link($url, $item->task);
