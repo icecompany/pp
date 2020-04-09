@@ -10,9 +10,7 @@ class PpModelSections extends ListModel
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
                 's.id',
-                's.title',
                 's.ordering',
-                'parent',
                 'search',
                 'manager',
             );
@@ -31,7 +29,7 @@ class PpModelSections extends ListModel
         $orderDirn = $this->state->get('list.direction');
 
         //Ограничение длины списка
-        $limit = (!$this->export) ? $this->getState('list.limit') : 0;
+        $limit = 0;
 
         $query
             ->select("s.id, s.title, s.ordering, s.parentID")
@@ -58,10 +56,6 @@ class PpModelSections extends ListModel
         if (is_numeric($manager)) {
             $query->where("s.managerID = {$this->_db->q($manager)}");
         }
-        $parent = $this->getState('filter.parent');
-        if (is_numeric($parent)) {
-            $query->where("s.parentID = {$this->_db->q($parent)}");
-        }
 
         $query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
         $this->setState('list.limit', $limit);
@@ -72,21 +66,27 @@ class PpModelSections extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        $result = array();
+        $result = ['items' => [], 'parents' => [], 'titles' => []];
         foreach ($items as $item) {
+            $arr = [];
             $arr['id'] = $item->id;
             $arr['title'] = $item->title;
             if (!empty($item->parent)) $arr['title'] = "- {$arr['title']}";
             $arr['ordering'] = $item->ordering;
             $arr['manager'] = $item->manager;
-            $arr['parent'] = $item->parent;
             $arr['parentID'] = $item->parentID;
             $url = JRoute::_("index.php?option={$this->option}&amp;task=section.edit&amp;id={$item->id}");
             $style = (empty($item->parent)) ? 'font-weight: bold;' : '';
             $arr['edit_link'] = JHtml::link($url, $arr['title'], ['style' => $style]);
             $url = JRoute::_("index.php?option={$this->option}&amp;view=tasks&amp;filter_section={$item->id}&amp;filter_object=&amp;filter_manager=&amp;filter_director=&amp;back=1");
             $arr['tasks_link'] = JHtml::link($url, $arr['title'], ['style' => $style]);
-            $result['items'][] = $arr;
+            $result['titles'][$item->id] = $item->title;
+            if (empty($item->parentID)) {
+                $result['parents'][$item->id] = $arr;
+            }
+            else {
+                $result['items'][$item->parentID][] = $arr;
+            }
         }
         return $result;
     }
@@ -97,8 +97,6 @@ class PpModelSections extends ListModel
         $this->setState('filter.search', $search);
         $manager = $this->getUserStateFromRequest($this->context . '.filter.manager', 'filter_manager', JFactory::getUser()->id);
         $this->setState('filter.manager', $manager);
-        $parent = $this->getUserStateFromRequest($this->context . '.filter.parent', 'filter_parent');
-        $this->setState('filter.parent', $parent);
         parent::populateState($ordering, $direction);
         PpHelper::check_refresh();
     }
@@ -107,7 +105,6 @@ class PpModelSections extends ListModel
     {
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . $this->getState('filter.manager');
-        $id .= ':' . $this->getState('filter.parent');
         return parent::getStoreId($id);
     }
 

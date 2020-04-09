@@ -9,9 +9,8 @@ if ($saveOrder)
     $saveOrderingUrl = 'index.php?option=com_pp&task=sections.saveOrderAjax&tmpl=component';
     JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
-foreach ($this->items['items'] as $i => $item) :
-    ?>
-    <tr class="row<?php echo $i % 2; ?>">
+foreach ($this->items['parents'] as $i => $parent) :?>
+    <tr class="row<?php echo $ii % 2; ?>">
         <td class="order nowrap center hidden-phone">
             <?php
             $iconClass = '';
@@ -23,26 +22,57 @@ foreach ($this->items['items'] as $i => $item) :
                 <span class="icon-menu" aria-hidden="true"></span>
             </span>
             <?php if ($saveOrder) : ?>
-                <input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item['ordering']; ?>" class="width-20 text-area-order"/>
+                <input type="text" style="display:none" name="order[]" size="5" value="<?php echo $parent['ordering']; ?>" class="width-20 text-area-order"/>
             <?php endif; ?>
         </td>
         <td class="center">
-            <?php echo JHtml::_('grid.id', $i, $item['id']); ?>
+            <?php echo JHtml::_('grid.id', $i, $parent['id']); ?>
         </td>
         <td>
             <?php echo ++$ii; ?>
         </td>
         <td>
-            <?php echo $item['tasks_link']; ?>
+            <?php echo $parent['tasks_link']; ?>
         </td>
         <td>
-            <?php echo $item['manager']; ?>
+            <?php echo $parent['manager']; ?>
         </td>
         <td>
-            <?php echo $item['parent']; ?>
-        </td>
-        <td>
-            <?php echo $item['id']; ?>
+            <?php echo $parent['id']; ?>
         </td>
     </tr>
+    <?php foreach ($this->items['items'][$i] as $j => $item) :?>
+        <tr class="row<?php echo $j % 2; ?>">
+            <td class="order nowrap center hidden-phone">
+                <?php
+                $iconClass = '';
+                if (!$saveOrder) {
+                    $iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
+                }
+                ?>
+                <span class="sortable-handler <?php echo $iconClass ?>">
+                <span class="icon-menu" aria-hidden="true"></span>
+            </span>
+                <?php if ($saveOrder) : ?>
+                    <input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item['ordering']; ?>" class="width-20 text-area-order"/>
+                <?php endif; ?>
+            </td>
+            <td class="center">
+                <?php echo JHtml::_('grid.id', $j, $item['id']); ?>
+            </td>
+            <td>
+                <?php echo ++$ii; ?>
+            </td>
+            <td>
+                <?php echo $item['tasks_link']; ?>
+            </td>
+            <td>
+                <?php echo $item['manager']; ?>
+            </td>
+            <td>
+                <?php echo $item['id']; ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
 <?php endforeach; ?>
+
