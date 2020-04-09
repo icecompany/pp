@@ -42,7 +42,7 @@ class PpModelPlan extends ListModel
         $userID = JFactory::getUser()->id;
 
         //Ограничение длины списка
-        $limit = (!$this->export) ? $this->getState('list.limit') : 0;
+        $limit = 0;
 
         $query
             ->select("t.id, t.date_start, t.date_end, t.date_close, t.task")
