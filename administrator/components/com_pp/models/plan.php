@@ -123,6 +123,7 @@ class PpModelPlan extends ListModel
                 $result['items'][$item->parentID][$item->sectionID] = [];
                 $result['sections'][$item->sectionID] = $item->section;
             }
+            if (in_array($item->sectionID, $sections)) unset($sections[$item->sectionID]);
             $arr['id'] = $item->id;
             $arr['task'] = $item->task;
             $arr['type'] = $item->type;
@@ -146,6 +147,19 @@ class PpModelPlan extends ListModel
             $url = JRoute::_("index.php?option={$this->option}&amp;view=operations&amp;taskID={$item->id}");
             $arr['operations_link'] = JHtml::link($url, $item->task);
             $result['items'][$item->parentID][$item->sectionID][] = $arr;
+        }
+
+        return $result;
+    }
+
+    public function getEmptySections()
+    {
+        $model = ListModel::getInstance('Sections', 'PpModel');
+        $items = $model->getItems();
+        $result = [];
+        foreach ($items['items'] as $item) {
+            if (empty($item['parentID'])) $result[$item['id']]['title'] = $item['title'];
+            if (!empty($item['parentID'])) $result[$item['parentID']][] = [$item['id'] => $item['title']];
         }
         return $result;
     }

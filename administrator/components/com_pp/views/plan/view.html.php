@@ -6,7 +6,7 @@ defined('_JEXEC') or die;
 class PpViewPlan extends HtmlView
 {
     protected $sidebar = '';
-    public $items, $pagination, $uid, $state, $filterForm, $activeFilters, $sectionTitle;
+    public $items, $pagination, $uid, $state, $filterForm, $activeFilters, $sectionTitle, $emptySections;
 
     public function display($tpl = null)
     {
@@ -16,6 +16,7 @@ class PpViewPlan extends HtmlView
         $this->filterForm = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
         $this->sectionTitle = $this->get('SectionTitle');
+        $this->emptySections = $this->get('EmptySections');
 
         // Show the toolbar
         $this->toolbar();
@@ -47,7 +48,7 @@ class PpViewPlan extends HtmlView
         }
         if (PpHelper::canDo('core.admin'))
         {
-            JToolBarHelper::preferences('com_pp');
+            JToolBarHelper::custom('section.add', 'grid', '', JText::sprintf('COM_PP_ACTION_LINK_ADD_SECTION'), false);
         }
         if (PpHelper::canDo('core.admin'))
         {

@@ -49,3 +49,18 @@ foreach ($this->items['items'] as $parentID => $parent) :?>
         <?php endforeach;?>
     <?php endforeach;?>
 <?php endforeach;?>
+<?php foreach ($this->emptySections as $emptyParentID => $emptyParent) :?>
+    <tr>
+        <td colspan="20"><h3><?php echo $emptyParent['title'];?></h3></td>
+    </tr>
+    <?php foreach ($emptyParent as $emptySectionID => $emptySectionTitle) :
+        if ($emptySectionTitle === 'title') continue;
+        foreach ($emptySectionTitle as $id => $value) :?>
+            <tr>
+                <td colspan="20"><h4><?php echo $value;?></h4></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endforeach;?>
+<?php endforeach;?>
+
+

@@ -34,7 +34,7 @@ class PpModelSections extends ListModel
         $limit = (!$this->export) ? $this->getState('list.limit') : 0;
 
         $query
-            ->select("s.id, s.title, s.ordering")
+            ->select("s.id, s.title, s.ordering, s.parentID")
             ->select("s1.title as parent")
             ->select("u.name as manager")
             ->from("#__mkv_pp_sections s")
@@ -74,13 +74,13 @@ class PpModelSections extends ListModel
         $items = parent::getItems();
         $result = array();
         foreach ($items as $item) {
-            $arr = ['items' => []];
             $arr['id'] = $item->id;
             $arr['title'] = $item->title;
             if (!empty($item->parent)) $arr['title'] = "- {$arr['title']}";
             $arr['ordering'] = $item->ordering;
             $arr['manager'] = $item->manager;
             $arr['parent'] = $item->parent;
+            $arr['parentID'] = $item->parentID;
             $url = JRoute::_("index.php?option={$this->option}&amp;task=section.edit&amp;id={$item->id}");
             $style = (empty($item->parent)) ? 'font-weight: bold;' : '';
             $arr['edit_link'] = JHtml::link($url, $arr['title'], ['style' => $style]);
