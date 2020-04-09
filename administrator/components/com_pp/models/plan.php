@@ -16,6 +16,7 @@ class PpModelPlan extends ListModel
                 'contractor',
                 'object',
                 'section',
+                'sub_section',
                 'parent',
                 'type',
                 'project',
@@ -89,7 +90,11 @@ class PpModelPlan extends ListModel
         }
         $section = $this->getState('filter.section');
         if (is_numeric($section)) {
-            $query->where("(t.sectionID = {$this->_db->q($section)} or s.parentID = {$this->_db->q($section)})");
+            $query->where("s.parentID = {$this->_db->q($section)}");
+        }
+        $sub_section = $this->getState('filter.sub_section');
+        if (is_numeric($sub_section)) {
+            $query->where("s.id = {$this->_db->q($sub_section)}");
         }
         $manager = $this->getState('filter.manager');
         if (is_numeric($manager)) {
@@ -113,17 +118,9 @@ class PpModelPlan extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        $result = array();
+        $result = ['items' => [], 'sections' => $this->getSections()];
         foreach ($items as $item) {
-            if (!isset($result['items'][$item->parentID])) {
-                $result['items'][$item->parentID] = [];
-                $result['parents'][$item->parentID] = $item->parent;
-            }
-            if (!isset($result['items'][$item->parentID][$item->sectionID])) {
-                $result['items'][$item->parentID][$item->sectionID] = [];
-                $result['sections'][$item->sectionID] = $item->section;
-            }
-            if (in_array($item->sectionID, $sections)) unset($sections[$item->sectionID]);
+            $arr = [];
             $arr['id'] = $item->id;
             $arr['task'] = $item->task;
             $arr['type'] = $item->type;
@@ -135,7 +132,7 @@ class PpModelPlan extends ListModel
             $director = explode(" ", $item->director);
             $arr['director'] = $director[0];
             $arr['manager'] = $manager[0];
-            $color = ((int) $item->status !== -2) ? 'black' : 'red';
+            $color = PpHelper::getTaskColor($item->status);
             $arr['status'] = "<span style='color: {$color}'>".JText::sprintf("COM_PP_TASK_STATUS_{$item->status}")."</span>";
             $date_start = JDate::getInstance($item->date_start);
             $date_end = JDate::getInstance($item->date_end);
@@ -146,22 +143,16 @@ class PpModelPlan extends ListModel
             $arr['edit_link'] = JHtml::link($url, JText::sprintf('JTOOLBAR_EDIT'));
             $url = JRoute::_("index.php?option={$this->option}&amp;view=operations&amp;taskID={$item->id}");
             $arr['operations_link'] = JHtml::link($url, $item->task);
-            $result['items'][$item->parentID][$item->sectionID][] = $arr;
+            $result['items'][$item->sectionID][] = $arr;
         }
 
         return $result;
     }
 
-    public function getEmptySections()
+    public function getSections()
     {
         $model = ListModel::getInstance('Sections', 'PpModel');
-        $items = $model->getItems();
-        $result = [];
-        foreach ($items['items'] as $item) {
-            if (empty($item['parentID'])) $result[$item['id']]['title'] = $item['title'];
-            if (!empty($item['parentID'])) $result[$item['parentID']][] = [$item['id'] => $item['title']];
-        }
-        return $result;
+        return $model->getItems();
     }
 
     public function getSectionTitle()
@@ -187,6 +178,8 @@ class PpModelPlan extends ListModel
         $this->setState('filter.type', $type);
         $section = $this->getUserStateFromRequest($this->context . '.filter.section', 'filter_section');
         $this->setState('filter.section', $section);
+        $sub_section = $this->getUserStateFromRequest($this->context . '.filter.sub_section', 'filter_sub_section');
+        $this->setState('filter.sub_section', $sub_section);
         $parent = $this->getUserStateFromRequest($this->context . '.filter.parent', 'filter_parent');
         $this->setState('filter.parent', $parent);
         $object = $this->getUserStateFromRequest($this->context . '.filter.object', 'filter_object');
@@ -199,6 +192,8 @@ class PpModelPlan extends ListModel
         $this->setState('filter.date_close', $date_close);
         $status = $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status');
         $this->setState('filter.status', $status);
+        $project = $this->getUserStateFromRequest($this->context . '.filter.project', 'filter_project', 11);
+        $this->setState('filter.project', $project);
         parent::populateState($ordering, $direction);
         PpHelper::check_refresh();
     }
@@ -210,12 +205,14 @@ class PpModelPlan extends ListModel
         $id .= ':' . $this->getState('filter.director');
         $id .= ':' . $this->getState('filter.type');
         $id .= ':' . $this->getState('filter.section');
+        $id .= ':' . $this->getState('filter.sub_section');
         $id .= ':' . $this->getState('filter.parent');
         $id .= ':' . $this->getState('filter.object');
         $id .= ':' . $this->getState('filter.date_start');
         $id .= ':' . $this->getState('filter.date_end');
         $id .= ':' . $this->getState('filter.date_close');
         $id .= ':' . $this->getState('filter.status');
+        $id .= ':' . $this->getState('filter.project');
         return parent::getStoreId($id);
     }
 

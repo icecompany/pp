@@ -6,7 +6,7 @@ defined('_JEXEC') or die;
 class PpViewPlan extends HtmlView
 {
     protected $sidebar = '';
-    public $items, $pagination, $uid, $state, $filterForm, $activeFilters, $sectionTitle, $emptySections;
+    public $items, $pagination, $uid, $state, $filterForm, $activeFilters, $sectionTitle;
 
     public function display($tpl = null)
     {
@@ -16,7 +16,8 @@ class PpViewPlan extends HtmlView
         $this->filterForm = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
         $this->sectionTitle = $this->get('SectionTitle');
-        $this->emptySections = $this->get('EmptySections');
+
+        $this->filterForm->setValue('project', 'filter', $this->state->get('filter.project'));
 
         // Show the toolbar
         $this->toolbar();

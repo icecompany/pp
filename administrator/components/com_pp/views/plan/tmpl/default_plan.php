@@ -2,15 +2,26 @@
 // Запрет прямого доступа.
 defined('_JEXEC') or die;
 $ii = $this->state->get('list.start', 0);
-foreach ($this->items['items'] as $parentID => $parent) :?>
+$sub_section = $this->state->get('filter.sub_section');
+foreach ($this->items['sections']['parents'] as $parentID => $parent) :
+    if (is_numeric($sub_section) && $parentID != $this->items['sections']['flip'][$sub_section]) continue;
+    ?>
     <tr>
-        <td colspan="20"><h3><?php echo $this->items['parents'][$parentID];?></h3></td>
+        <td colspan="20"><b><?php echo $parent['title'];?></b></td>
     </tr>
-    <?php foreach ($this->items['items'][$parentID] as $sectionID => $section) :?>
+    <?php foreach ($this->items['sections']['items'][$parentID] as $section) :
+    if (is_numeric($sub_section) && $section['id'] != $sub_section) continue;
+    ?>
         <tr>
-            <td colspan="20"><h4>- <?php echo $this->items['sections'][$sectionID];?></h4></td>
+            <td colspan="20"><b><?php echo $section['title'];?></b></td>
         </tr>
-        <?php foreach ($this->items['items'][$parentID][$sectionID] as $i => $item) :?>
+        <?php
+        if (empty($this->items['items'][$section['id']])) :?>
+            <tr>
+                <td colspan="11"><?php echo JText::sprintf('COM_PP_MSG_SUB_SECTION_HAVE_NO_TASKS');?></td>
+            </tr>
+        <?php endif; ?>
+        <?php foreach ($this->items['items'][$section['id']] as $i => $item) :?>
             <tr class="row<?php echo $i % 2; ?>">
                 <td class="center">
                     <?php echo JHtml::_('grid.id', $i, $item['id']); ?>
@@ -47,19 +58,6 @@ foreach ($this->items['items'] as $parentID => $parent) :?>
                 </td>
             </tr>
         <?php endforeach;?>
-    <?php endforeach;?>
-<?php endforeach;?>
-<?php foreach ($this->emptySections as $emptyParentID => $emptyParent) :?>
-    <tr>
-        <td colspan="20"><h3><?php echo $emptyParent['title'];?></h3></td>
-    </tr>
-    <?php foreach ($emptyParent as $emptySectionID => $emptySectionTitle) :
-        if ($emptySectionTitle === 'title') continue;
-        foreach ($emptySectionTitle as $id => $value) :?>
-            <tr>
-                <td colspan="20"><h4><?php echo $value;?></h4></td>
-            </tr>
-        <?php endforeach; ?>
     <?php endforeach;?>
 <?php endforeach;?>
 

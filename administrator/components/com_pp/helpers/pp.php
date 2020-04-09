@@ -15,6 +15,12 @@ class PpHelper
         HTMLHelper::_('sidebar.addEntry', JText::sprintf('COM_PP_MENU_OBJECTS'), 'index.php?option=com_pp&view=objects', $vName === 'objects');
     }
 
+    public static function getTaskColor(int $status): string
+    {
+        $arr = [-2 => 'red', 1 => 'green', 2 => 'blue', 3 => 'black'];
+        return $arr[$status];
+    }
+
     /**
      * Проверяет необходимость перезагрузить страницу. Используется для возврата на предыдущую страницу при отправке формы в админке
      * @throws Exception

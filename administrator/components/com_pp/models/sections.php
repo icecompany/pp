@@ -18,6 +18,7 @@ class PpModelSections extends ListModel
         parent::__construct($config);
         $input = JFactory::getApplication()->input;
         $this->export = ($input->getString('format', 'html') === 'html') ? false : true;
+        $this->id = (!empty($config['id']) && is_numeric($config['id'])) ? $config['id'] : 0;
     }
 
     protected function _getListQuery()
@@ -57,6 +58,8 @@ class PpModelSections extends ListModel
             $query->where("s.managerID = {$this->_db->q($manager)}");
         }
 
+        if ($this->id > 0) $query->where("(s.id = {$this->id})");
+
         $query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
         $this->setState('list.limit', $limit);
 
@@ -66,7 +69,7 @@ class PpModelSections extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        $result = ['items' => [], 'parents' => [], 'titles' => []];
+        $result = ['items' => [], 'parents' => [], 'titles' => [], 'flip' => []];
         foreach ($items as $item) {
             $arr = [];
             $arr['id'] = $item->id;
@@ -85,6 +88,7 @@ class PpModelSections extends ListModel
                 $result['parents'][$item->id] = $arr;
             }
             else {
+                $result['flip'][$item->id] = $item->parentID;
                 $result['items'][$item->parentID][] = $arr;
             }
         }
@@ -108,5 +112,5 @@ class PpModelSections extends ListModel
         return parent::getStoreId($id);
     }
 
-    private $export;
+    private $export, $id;
 }
