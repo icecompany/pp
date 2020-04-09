@@ -39,9 +39,9 @@
         />
         <field
                 name="sectionID"
-                type="Sectionchildren"
-                label="COM_PP_FORM_TASK_SECTION_LABEL"
-                description="COM_PP_FORM_TASK_SECTION_DESC"
+                type="Subsection"
+                label="COM_PP_FORM_TASK_SUB_SECTION_LABEL"
+                description="COM_PP_FORM_TASK_SUB_SECTION_DESC"
                 required="true"
                 class="span12"
                 onchange="getDirector();"
