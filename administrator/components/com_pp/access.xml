@@ -10,6 +10,7 @@
 		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
 		<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />
 		<action name="core.edit.value" title="JACTION_EDITVALUE" description="JACTION_EDITVALUE_COMPONENT_DESC" />
+		<action name="core.sections.all" title="COM_PP_SETTINGS_ACCESS_ALL_SECTIONS_TITLE" description="COM_PP_SETTINGS_ACCESS_ALL_SECTIONS_DESC" />
 		<action name="core.tasks.all" title="COM_PP_SETTINGS_ACCESS_ALL_TASKS_TITLE" description="COM_PP_SETTINGS_ACCESS_ALL_TASKS_DESC" />
 	</section>
 </access>
