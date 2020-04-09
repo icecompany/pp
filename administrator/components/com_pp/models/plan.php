@@ -77,8 +77,9 @@ class PpModelPlan extends ListModel
             }
         }
         $status = $this->getState('filter.status');
-        if (is_numeric($status)) {
-            $query->having("status = {$this->_db->q($status)}");
+        if (is_array($status)) {
+            $status = implode(', ', $status);
+            $query->having("status in ($status)");
         }
         $project = $this->getState('filter.project');
         if (is_numeric($project)) {
@@ -190,7 +191,7 @@ class PpModelPlan extends ListModel
         $this->setState('filter.date_end', $date_end);
         $date_close = $this->getUserStateFromRequest($this->context . '.filter.date_close', 'filter_date_close');
         $this->setState('filter.date_close', $date_close);
-        $status = $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status');
+        $status = $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', [-2, 1, 2]);
         $this->setState('filter.status', $status);
         $project = $this->getUserStateFromRequest($this->context . '.filter.project', 'filter_project', 11);
         $this->setState('filter.project', $project);

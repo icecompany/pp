@@ -18,6 +18,7 @@ class PpViewPlan extends HtmlView
         $this->sectionTitle = $this->get('SectionTitle');
 
         $this->filterForm->setValue('project', 'filter', $this->state->get('filter.project'));
+        $this->filterForm->setValue('status', 'filter', $this->state->get('filter.status'));
 
         // Show the toolbar
         $this->toolbar();
