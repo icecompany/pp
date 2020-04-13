@@ -132,7 +132,7 @@ class PpModelTasks extends ListModel
             $director = explode(" ", $item->director);
             $arr['director'] = $director[0];
             $arr['manager'] = $manager[0];
-            $color = ((int) $item->status !== -2) ? 'black' : 'red';
+            $color = PpHelper::getTaskColor((int) $item->status);
             $arr['status'] = "<span style='color: {$color}'>".JText::sprintf("COM_PP_TASK_STATUS_{$item->status}")."</span>";
             $date_start = JDate::getInstance($item->date_start);
             $date_end = JDate::getInstance($item->date_end);
