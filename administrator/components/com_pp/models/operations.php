@@ -15,6 +15,7 @@ class PpModelOperations extends ListModel
                 'search',
                 'manager',
                 'date',
+                'date_2',
                 'status',
                 'director',
             );
@@ -81,9 +82,16 @@ class PpModelOperations extends ListModel
             $query->where("o.taskID = {$this->_db->q($this->taskID)}");
         }
         $date = $this->getState('filter.date');
-        if (!empty($date)) {
+        $date_2 = $this->getState('filter.date_2');
+        if (!empty($date) && $date !== '0000-00-00 00:00:00') {
             $date = JDate::getInstance($date)->toSql();
-            $query->where("o.date_operation = {$this->_db->q($date)}");
+            if (!empty($date_2) && $date_2 !== '0000-00-00 00:00:00') {
+                $date_2 = JDate::getInstance($date_2)->toSql();
+                $query->where("o.date_operation between {$this->_db->q($date)} and {$this->_db->q($date_2)}");
+            }
+            else {
+                $query->where("o.date_operation = {$this->_db->q($date)}");
+            }
         }
 
         $query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
@@ -142,6 +150,8 @@ class PpModelOperations extends ListModel
         $this->setState('filter.director', $director);
         $date = $this->getUserStateFromRequest($this->context . '.filter.date', 'filter_date');
         $this->setState('filter.date', $date);
+        $date_2 = $this->getUserStateFromRequest($this->context . '.filter.date_2', 'filter_date_2');
+        $this->setState('filter.date_2', $date_2);
         $status = $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status');
         $this->setState('filter.status', $status);
 
@@ -155,6 +165,7 @@ class PpModelOperations extends ListModel
         $id .= ':' . $this->getState('filter.manager');
         $id .= ':' . $this->getState('filter.director');
         $id .= ':' . $this->getState('filter.date');
+        $id .= ':' . $this->getState('filter.date_2');
         $id .= ':' . $this->getState('filter.status');
         return parent::getStoreId($id);
     }
