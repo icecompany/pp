@@ -152,7 +152,7 @@ class PpModelPlan extends ListModel
 
     public function getSections()
     {
-        $model = ListModel::getInstance('Sections', 'PpModel');
+        $model = ListModel::getInstance('Sections', 'PpModel', ['for_plan' => true]);
         return $model->getItems();
     }
 

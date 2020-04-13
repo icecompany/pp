@@ -19,6 +19,8 @@ class PpModelSections extends ListModel
         $input = JFactory::getApplication()->input;
         $this->export = ($input->getString('format', 'html') === 'html') ? false : true;
         $this->id = (!empty($config['id']) && is_numeric($config['id'])) ? $config['id'] : 0;
+        $this->for_plan = (bool) (!empty($config['for_plan']) && $config['for_plan']);
+
     }
 
     protected function _getListQuery()
@@ -54,7 +56,7 @@ class PpModelSections extends ListModel
             }
         }
         $manager = $this->getState('filter.manager');
-        if (is_numeric($manager)) {
+        if (is_numeric($manager) && !$this->for_plan && !PpHelper::canDo('core.sections.all')) {
             $query->where("s.managerID = {$this->_db->q($manager)}");
         }
 
@@ -112,5 +114,5 @@ class PpModelSections extends ListModel
         return parent::getStoreId($id);
     }
 
-    private $export, $id;
+    private $export, $id, $for_plan;
 }
