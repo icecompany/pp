@@ -101,7 +101,8 @@ class PpModelSections extends ListModel
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
-        $manager = $this->getUserStateFromRequest($this->context . '.filter.manager', 'filter_manager', JFactory::getUser()->id);
+        $default_manager = (!PpHelper::canDo('core.sections.all') ? JFactory::getUser()->id : '');
+        $manager = $this->getUserStateFromRequest($this->context . '.filter.manager', 'filter_manager', $default_manager);
         $this->setState('filter.manager', $manager);
         parent::populateState($ordering, $direction);
         PpHelper::check_refresh();
