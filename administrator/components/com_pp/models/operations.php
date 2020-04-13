@@ -117,11 +117,44 @@ class PpModelOperations extends ListModel
             $arr['director'] = $item->director;
             $color = PpHelper::getTaskColor($item->status);
             $arr['status'] = "<span style='color:{$color}'>".JText::sprintf("COM_PP_OPERATION_STATUS_{$item->status}")."</span>";
+            $arr['status_export'] = JText::sprintf("COM_PP_OPERATION_STATUS_{$item->status}");
             $url = JRoute::_("index.php?option={$this->option}&amp;task=operation.edit&amp;id={$item->id}&amp;return={$return}");
             $arr['edit_link'] = JHtml::link($url, $item->task);
             $result['items'][] = $arr;
         }
         return $result;
+    }
+
+    public function exportToExcel()
+    {
+        $items = $this->getItems();
+        $heads = $this->getColumnHeads();
+        JLoader::register('PHPExcel', JPATH_LIBRARIES . '/PHPExcel.php');
+        $xls = new PHPExcel();
+        $xls->setActiveSheetIndex(0);
+        $sheet = $xls->getActiveSheet();
+        foreach ($heads as $column => $data) {
+            $sheet->setCellValue($column, $data);
+        }
+        foreach ($items['items'] as $i => $item) {
+            $j = $i + 2;
+            $sheet->setCellValue("A{$j}", $item['status_export']);
+            $sheet->setCellValue("B{$j}", $item['date_operation']);
+            $sheet->setCellValue("C{$j}", $item['task']);
+            $sheet->setCellValue("D{$j}", $item['result']);
+            $sheet->setCellValue("E{$j}", $item['manager']);
+            $sheet->setCellValue("F{$j}", $item['director']);
+        }
+        $filename = sprintf("Operations.xls");
+        header("Expires: Mon, 1 Apr 1974 05:00:00 GMT");
+        header("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Pragma: public");
+        header("Content-type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename={$filename}");
+        $objWriter = PHPExcel_IOFactory::createWriter($xls, 'Excel5');
+        $objWriter->save('php://output');
+        jexit();
     }
 
     public function getParentTask()
@@ -168,6 +201,24 @@ class PpModelOperations extends ListModel
         $id .= ':' . $this->getState('filter.date_2');
         $id .= ':' . $this->getState('filter.status');
         return parent::getStoreId($id);
+    }
+
+    /**
+     *Возвращает заголовки столбцов для экспорта
+     * @return array
+     *
+     * @since version 1.2.5
+     */
+    private function getColumnHeads(): array
+    {
+        $arr = [];
+        $arr["A1"] = JText::sprintf('COM_PP_HEAD_OPERATIONS_STATUS');
+        $arr["B1"] = JText::sprintf('COM_PP_HEAD_OPERATIONS_DATE_OPERATION');
+        $arr["C1"] = JText::sprintf('COM_PP_HEAD_OPERATIONS_TASK');
+        $arr["D1"] = JText::sprintf('COM_PP_HEAD_OPERATIONS_RESULT');
+        $arr["E1"] = JText::sprintf('COM_PP_HEAD_TASKS_MANAGER');
+        $arr["F1"] = JText::sprintf('COM_PP_HEAD_TASKS_DIRECTOR');
+        return $arr;
     }
 
     private $export, $taskID;
