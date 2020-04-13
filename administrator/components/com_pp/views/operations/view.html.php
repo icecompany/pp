@@ -17,9 +17,6 @@ class PpViewOperations extends HtmlView
         $this->activeFilters = $this->get('ActiveFilters');
         $this->parentTask = $this->get('ParentTask');
         $this->taskID = $this->get('TaskID');
-        if ($this->taskID > 0) {
-            $this->filterForm->removeField('status', 'filter');
-        }
 
         // Show the toolbar
         $this->toolbar();
