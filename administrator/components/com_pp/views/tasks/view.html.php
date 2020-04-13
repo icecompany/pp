@@ -17,6 +17,8 @@ class PpViewTasks extends HtmlView
         $this->activeFilters = $this->get('ActiveFilters');
         $this->sectionTitle = $this->get('SectionTitle');
 
+        $this->filterForm->setValue('project', 'filter', $this->state->get('filter.project'));
+
         // Show the toolbar
         $this->toolbar();
 

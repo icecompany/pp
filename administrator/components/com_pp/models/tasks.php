@@ -185,6 +185,8 @@ class PpModelTasks extends ListModel
         $this->setState('filter.date_close', $date_close);
         $status = $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status');
         $this->setState('filter.status', $status);
+        $project = $this->getUserStateFromRequest($this->context . '.filter.project', 'filter_project', 11);
+        $this->setState('filter.project', $project);
         parent::populateState($ordering, $direction);
         PpHelper::check_refresh();
     }
@@ -203,6 +205,7 @@ class PpModelTasks extends ListModel
         $id .= ':' . $this->getState('filter.date_end');
         $id .= ':' . $this->getState('filter.date_close');
         $id .= ':' . $this->getState('filter.status');
+        $id .= ':' . $this->getState('filter.project');
         return parent::getStoreId($id);
     }
 
