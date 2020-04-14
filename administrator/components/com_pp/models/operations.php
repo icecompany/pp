@@ -113,9 +113,12 @@ class PpModelOperations extends ListModel
             $arr['date_close'] = (!empty($item->date_close)) ? JDate::getInstance($item->date_close)->format("d.m.Y") : '';
             $arr['task'] = $item->task;
             $arr['result'] = $item->result;
-            $arr['manager'] = $item->manager;
-            $arr['director'] = $item->director;
+            $manager = explode(" ", $item->manager);
+            $director = explode(" ", $item->director);
+            $arr['director'] = $director[0];
+            $arr['manager'] = $manager[0];
             $color = PpHelper::getTaskColor($item->status);
+            $arr['color'] = $color;
             $arr['status'] = "<span style='color:{$color}'>".JText::sprintf("COM_PP_OPERATION_STATUS_{$item->status}")."</span>";
             $arr['status_export'] = JText::sprintf("COM_PP_OPERATION_STATUS_{$item->status}");
             $url = JRoute::_("index.php?option={$this->option}&amp;task=operation.edit&amp;id={$item->id}&amp;return={$return}");
@@ -133,12 +136,20 @@ class PpModelOperations extends ListModel
         $xls = new PHPExcel();
         $xls->setActiveSheetIndex(0);
         $sheet = $xls->getActiveSheet();
+        //Ширина столбцов
+        $width = array("A" => 14, "B" => 11, "C" => 78, "D" => 64, "E" => 15, "F" => 15);
+        foreach ($width as $col => $value) {
+            $sheet->getColumnDimension($col)->setWidth($value);
+        }
         foreach ($heads as $column => $data) {
             $sheet->setCellValue($column, $data);
+            $sheet->getStyle($column)->getFont()->setBold(true);
+            $sheet->getStyle($column)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
         foreach ($items['items'] as $i => $item) {
             $j = $i + 2;
             $sheet->setCellValue("A{$j}", $item['status_export']);
+            $sheet->getStyle("A{$j}")->getFont()->getColor()->setRGB(str_ireplace("#", "", $item['color']));
             $sheet->setCellValue("B{$j}", $item['date_operation']);
             $sheet->setCellValue("C{$j}", $item['task']);
             $sheet->setCellValue("D{$j}", $item['result']);
