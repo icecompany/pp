@@ -135,6 +135,7 @@ class PpModelPlan extends ListModel
             $arr['manager'] = $manager[0];
             $color = PpHelper::getTaskColor($item->status);
             $arr['status'] = "<span style='color: {$color}'>".JText::sprintf("COM_PP_TASK_STATUS_{$item->status}")."</span>";
+            $arr['status_export'] = JText::sprintf("COM_PP_TASK_STATUS_{$item->status}");
             $date_start = JDate::getInstance($item->date_start);
             $date_end = JDate::getInstance($item->date_end);
             $arr['date_start'] = $date_start->format("d.m.Y");
@@ -148,6 +149,67 @@ class PpModelPlan extends ListModel
         }
 
         return $result;
+    }
+
+    public function exportToExcel()
+    {
+        $items = $this->getItems();
+        $heads = $this->getColumnHeads();
+        JLoader::discover('PHPExcel', JPATH_LIBRARIES);
+        JLoader::register('PHPExcel', JPATH_LIBRARIES . '/PHPExcel.php');
+        $xls = new PHPExcel();
+        $xls->setActiveSheetIndex(0);
+        $sheet = $xls->getActiveSheet();
+        //Ширина столбцов
+        $width = array("A" => 12, "B" => 84, "C" => 18, "D" => 15, "E" => 34, "F" => 14, "G" => 14, "H" => 14);
+        foreach ($width as $col => $value) {
+            $sheet->getColumnDimension($col)->setWidth($value);
+        }
+        foreach ($heads as $column => $data) {
+            $sheet->setCellValue($column, $data);
+            $sheet->getStyle($column)->getFont()->setBold(true);
+            $sheet->getStyle($column)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        }
+        $str = 2;
+        foreach ($items['sections']['parents'] as $parentID => $parent) {
+            //Раздел
+            $sheet->mergeCells("A{$str}:H{$str}");
+            $column = "A{$str}";
+            $sheet->setCellValue($column, $parent['title']);
+            $sheet->getStyle($column)->getFont()->setBold(true);
+            $sheet->getStyle($column)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $str++;
+            foreach ($items['sections']['items'][$parentID] as $section) {
+                //Подраздел
+                $sheet->mergeCells("A{$str}:H{$str}");
+                $column = "A{$str}";
+                $sheet->setCellValue($column, $section['title']);
+                $sheet->getStyle($column)->getFont()->setBold(true);
+                $str++;
+                foreach ($items['items'][$section['id']] as $i => $item) {
+                    //Задачи
+                    $sheet->setCellValue("A{$str}", $item['status_export']);
+                    $sheet->setCellValue("B{$str}", $item['task']);
+                    $sheet->setCellValue("C{$str}", $item['manager']);
+                    $sheet->setCellValue("D{$str}", $item['director']);
+                    $sheet->setCellValue("E{$str}", $item['contractor']);
+                    $sheet->setCellValue("F{$str}", $item['date_close']);
+                    $sheet->setCellValue("G{$str}", $item['date_start']);
+                    $sheet->setCellValue("H{$str}", $item['date_end']);
+                    $str++;
+                }
+            }
+        }
+        $filename = sprintf("Plan.xls");
+        header("Expires: Mon, 1 Apr 1974 05:00:00 GMT");
+        header("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Pragma: public");
+        header("Content-type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename={$filename}");
+        $objWriter = PHPExcel_IOFactory::createWriter($xls, 'Excel5');
+        $objWriter->save('php://output');
+        jexit();
     }
 
     public function getSections()
@@ -165,6 +227,20 @@ class PpModelPlan extends ListModel
             return $table->title ?? '';
         }
         else return '';
+    }
+
+    public function getColumnHeads(): array
+    {
+        $result = [];
+        $result["A1"] = JText::sprintf('COM_PP_HEAD_TASKS_STATUS');
+        $result["B1"] = JText::sprintf('COM_PP_HEAD_TASKS_TASK');
+        $result["C1"] = JText::sprintf('COM_PP_HEAD_MANAGER');
+        $result["D1"] = JText::sprintf('COM_PP_HEAD_DIRECTOR');
+        $result["E1"] = JText::sprintf('COM_PP_HEAD_TASKS_CONTRACTOR');
+        $result["F1"] = JText::sprintf('COM_PP_HEAD_TASKS_DATE_CLOSE');
+        $result["G1"] = JText::sprintf('COM_PP_HEAD_TASKS_DATE_START');
+        $result["H1"] = JText::sprintf('COM_PP_HEAD_TASKS_DATE_END');
+        return $result;
     }
 
     protected function populateState($ordering = 'status', $direction = 'asc')
