@@ -17,7 +17,7 @@ class PpHelper
 
     public static function getTaskColor(int $status): string
     {
-        $arr = [-2 => 'red', 1 => 'green', 2 => 'blue', 3 => 'black'];
+        $arr = [-2 => '#FF0000', 1 => '#008000', 2 => '#0000FF', 3 => '#000000'];
         return $arr[$status];
     }
 

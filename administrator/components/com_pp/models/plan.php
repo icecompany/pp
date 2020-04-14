@@ -134,8 +134,10 @@ class PpModelPlan extends ListModel
             $arr['director'] = $director[0];
             $arr['manager'] = $manager[0];
             $color = PpHelper::getTaskColor($item->status);
+            $arr['color'] = $color;
             $arr['status'] = "<span style='color: {$color}'>".JText::sprintf("COM_PP_TASK_STATUS_{$item->status}")."</span>";
             $arr['status_export'] = JText::sprintf("COM_PP_TASK_STATUS_{$item->status}");
+            $arr['status_code'] = $item->status;
             $date_start = JDate::getInstance($item->date_start);
             $date_end = JDate::getInstance($item->date_end);
             $arr['date_start'] = $date_start->format("d.m.Y");
@@ -189,6 +191,7 @@ class PpModelPlan extends ListModel
                 foreach ($items['items'][$section['id']] as $i => $item) {
                     //Задачи
                     $sheet->setCellValue("A{$str}", $item['status_export']);
+                    $sheet->getStyle("A{$str}")->getFont()->getColor()->setRGB(str_ireplace("#", "", $item['color']));
                     $sheet->setCellValue("B{$str}", $item['task']);
                     $sheet->setCellValue("C{$str}", $item['manager']);
                     $sheet->setCellValue("D{$str}", $item['director']);
