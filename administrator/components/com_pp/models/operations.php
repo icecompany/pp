@@ -40,7 +40,13 @@ class PpModelOperations extends ListModel
         $query
             ->select("o.id, o.date_operation, o.task, o.result")
             ->select("if(o.date_operation < current_date and o.date_close is null, -2, if(o.date_operation < current_date and o.date_close is not null, 3, if(o.date_operation >= current_date, if(o.date_close is not null, 3, 1),0))) as status")
-            ->from("#__mkv_pp_operations o");
+            ->select("t.task as task_title")
+            ->select("s1.title as section")
+            ->select("s2.title as parent")
+            ->from("#__mkv_pp_operations o")
+            ->leftJoin("#__mkv_pp_tasks t on t.id = o.taskID")
+            ->leftJoin("#__mkv_pp_sections s1 on s1.id = t.sectionID")
+            ->leftJoin("#__mkv_pp_sections s2 on s2.id = s1.parentID");
 
         if ($this->taskID === 0) {
             $search = (!$this->export) ? $this->getState('filter.search') : JFactory::getApplication()->input->getString('search', '');
@@ -113,12 +119,16 @@ class PpModelOperations extends ListModel
             $arr['date_close'] = (!empty($item->date_close)) ? JDate::getInstance($item->date_close)->format("d.m.Y") : '';
             $arr['task'] = $item->task;
             $arr['result'] = $item->result;
+            $arr['task_title'] = $item->task_title;
+            $arr['section'] = $item->section;
+            $arr['parent'] = $item->parent;
             $manager = explode(" ", $item->manager);
             $director = explode(" ", $item->director);
             $arr['director'] = $director[0];
             $arr['manager'] = $manager[0];
             $color = PpHelper::getTaskColor($item->status);
             $arr['color'] = $color;
+            $arr['status_code'] = $item->status;
             $arr['status'] = "<span style='color:{$color}'>".JText::sprintf("COM_PP_OPERATION_STATUS_{$item->status}")."</span>";
             $arr['status_export'] = JText::sprintf("COM_PP_OPERATION_STATUS_{$item->status}");
             $url = JRoute::_("index.php?option={$this->option}&amp;task=operation.edit&amp;id={$item->id}&amp;return={$return}");
@@ -137,7 +147,7 @@ class PpModelOperations extends ListModel
         $xls->setActiveSheetIndex(0);
         $sheet = $xls->getActiveSheet();
         //Ширина столбцов
-        $width = array("A" => 14, "B" => 11, "C" => 78, "D" => 64, "E" => 15, "F" => 15);
+        $width = ["A" => 14, "B" => 11, "C" => 78, "D" => 64, "E" => 25, "F" => 25, "G" => 15, "H" => 15];
         foreach ($width as $col => $value) {
             $sheet->getColumnDimension($col)->setWidth($value);
         }
@@ -153,8 +163,10 @@ class PpModelOperations extends ListModel
             $sheet->setCellValue("B{$j}", $item['date_operation']);
             $sheet->setCellValue("C{$j}", $item['task']);
             $sheet->setCellValue("D{$j}", $item['result']);
-            $sheet->setCellValue("E{$j}", $item['manager']);
-            $sheet->setCellValue("F{$j}", $item['director']);
+            $sheet->setCellValue("E{$j}", $item['section']);
+            $sheet->setCellValue("F{$j}", $item['parent']);
+            $sheet->setCellValue("G{$j}", $item['manager']);
+            $sheet->setCellValue("H{$j}", $item['director']);
         }
         $filename = sprintf("Operations.xls");
         header("Expires: Mon, 1 Apr 1974 05:00:00 GMT");
@@ -227,8 +239,10 @@ class PpModelOperations extends ListModel
         $arr["B1"] = JText::sprintf('COM_PP_HEAD_OPERATIONS_DATE_OPERATION');
         $arr["C1"] = JText::sprintf('COM_PP_HEAD_OPERATIONS_TASK');
         $arr["D1"] = JText::sprintf('COM_PP_HEAD_OPERATIONS_RESULT');
-        $arr["E1"] = JText::sprintf('COM_PP_HEAD_TASKS_MANAGER');
-        $arr["F1"] = JText::sprintf('COM_PP_HEAD_TASKS_DIRECTOR');
+        $arr["E1"] = JText::sprintf('COM_PP_HEAD_TASKS_SECTION');
+        $arr["F1"] = JText::sprintf('COM_PP_HEAD_TASKS_PARENT');
+        $arr["G1"] = JText::sprintf('COM_PP_HEAD_TASKS_MANAGER');
+        $arr["H1"] = JText::sprintf('COM_PP_HEAD_TASKS_DIRECTOR');
         return $arr;
     }
 
