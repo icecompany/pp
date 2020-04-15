@@ -56,7 +56,7 @@ class PpModelSections extends ListModel
             }
         }
         $manager = $this->getState('filter.manager');
-        if (is_numeric($manager) && !$this->for_plan && !PpHelper::canDo('core.sections.all')) {
+        if (is_numeric($manager) && ((!$this->for_plan) || (!PpHelper::canDo('core.sections.all')))) {
             $query->where("s.managerID = {$this->_db->q($manager)}");
         }
 
