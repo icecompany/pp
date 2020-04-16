@@ -39,7 +39,7 @@ class PpModelOperations extends ListModel
 
         $query
             ->select("o.id, o.date_operation, o.task, o.result")
-            ->select("if(o.date_operation < current_date and o.date_close is null, -2, if(o.date_operation < current_date and o.date_close is not null, 3, if(o.date_operation >= current_date, if(o.date_close is not null, 3, 1),0))) as status")
+            ->select("if(o.date_operation < current_date and o.date_close is null, -2, if(o.date_operation < current_date and o.date_close is not null, 3, if(o.date_operation >= current_date, if(o.date_close is not null, 3, if(week(o.date_operation) > week(curdate()), 2, 1)),0))) as status")
             ->select("t.task as task_title")
             ->select("s1.title as section")
             ->select("s2.title as parent")
