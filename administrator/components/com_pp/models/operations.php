@@ -18,6 +18,8 @@ class PpModelOperations extends ListModel
                 'date_2',
                 'status',
                 'director',
+                'section',
+                'parent',
             );
         }
         parent::__construct($config);
