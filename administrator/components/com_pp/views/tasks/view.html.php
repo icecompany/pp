@@ -40,7 +40,7 @@ class PpViewTasks extends HtmlView
         if (JFactory::getApplication()->input->getBool('back', false)) JToolbarHelper::back();
         if (PpHelper::canDo('core.create'))
         {
-            JToolbarHelper::addNew('task.add');
+            if (!is_numeric($this->state->get('filter.section'))) JToolbarHelper::addNew('task.add');
         }
         if (PpHelper::canDo('core.edit'))
         {

@@ -13,6 +13,7 @@ class PpModelTask extends AdminModel {
             $item->date_end = JDate::getInstance(time() + 86400 * 7)->format("Y-m-d");
             $item->managerID = JFactory::getUser()->id;
             $item->contractorID = "";
+            $item->sectionID = $this->getState('sectionID');
         }
         else {
             $item->operations = $this->getOperations($item->id);
@@ -96,6 +97,13 @@ class PpModelTask extends AdminModel {
         {
             return parent::canEditState($record);
         }
+    }
+
+    protected function populateState()
+    {
+        $sectionID = JFactory::getApplication()->getUserStateFromRequest("{$this->option}.task.sectionID", 'task.sectionID', '');
+        $this->setState('sectionID', $sectionID);
+        parent::populateState();
     }
 
     public function getScript()
