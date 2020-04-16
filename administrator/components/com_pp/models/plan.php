@@ -270,7 +270,7 @@ class PpModelPlan extends ListModel
         $this->setState('filter.date_end', $date_end);
         $date_close = $this->getUserStateFromRequest($this->context . '.filter.date_close', 'filter_date_close');
         $this->setState('filter.date_close', $date_close);
-        $status = $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', [-2, 1, 2]);
+        $status = $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status');
         $this->setState('filter.status', $status);
         $project = $this->getUserStateFromRequest($this->context . '.filter.project', 'filter_project', 11);
         $this->setState('filter.project', $project);
