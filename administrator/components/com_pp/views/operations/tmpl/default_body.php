@@ -24,6 +24,12 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo $item['result']; ?>
         </td>
         <td>
+            <?php echo $item['section']; ?>
+        </td>
+        <td>
+            <?php echo $item['parent']; ?>
+        </td>
+        <td>
             <?php echo $item['manager']; ?>
         </td>
         <td>
