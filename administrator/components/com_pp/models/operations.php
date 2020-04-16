@@ -40,13 +40,15 @@ class PpModelOperations extends ListModel
         $query
             ->select("o.id, o.date_operation, o.task, o.result")
             ->select("if(o.date_operation < current_date and o.date_close is null, -2, if(o.date_operation < current_date and o.date_close is not null, 3, if(o.date_operation >= current_date, if(o.date_close is not null, 3, if(week(o.date_operation) > week(curdate()), 2, 1)),0))) as status")
+            ->select("o.checked_out_time, o.checked_out, u.name as block")
             ->select("t.task as task_title")
             ->select("s1.title as section")
             ->select("s2.title as parent")
             ->from("#__mkv_pp_operations o")
             ->leftJoin("#__mkv_pp_tasks t on t.id = o.taskID")
             ->leftJoin("#__mkv_pp_sections s1 on s1.id = t.sectionID")
-            ->leftJoin("#__mkv_pp_sections s2 on s2.id = s1.parentID");
+            ->leftJoin("#__mkv_pp_sections s2 on s2.id = s1.parentID")
+            ->leftJoin("#__users u on u.id = o.checked_out");
 
         if ($this->taskID === 0) {
             $search = (!$this->export) ? $this->getState('filter.search') : JFactory::getApplication()->input->getString('search', '');
@@ -111,7 +113,7 @@ class PpModelOperations extends ListModel
         $items = parent::getItems();
         $result = array();
         $return = PpHelper::getReturnUrl();
-        foreach ($items as $item) {
+        foreach ($items as $i => $item) {
             $arr = ['items' => []];
             $arr['id'] = $item->id;
             $date_operation = JDate::getInstance($item->date_operation);
@@ -133,6 +135,11 @@ class PpModelOperations extends ListModel
             $arr['status_export'] = JText::sprintf("COM_PP_OPERATION_STATUS_{$item->status}");
             $url = JRoute::_("index.php?option={$this->option}&amp;task=operation.edit&amp;id={$item->id}&amp;return={$return}");
             $arr['edit_link'] = JHtml::link($url, $item->task);
+            $canCheckin = ($item->checked_out == 0 || $item->checked_out == JFactory::getUser()->id || ($item->checked_out != JFactory::getUser()->id && PpHelper::canDo('core.tasks.checked_out')));
+            if (!$canCheckin) {
+                $arr['edit_link'] = JHtml::_('jgrid.checkedout', $i, $item->block, $item->checked_out_time, 'operations.', $canCheckin);
+                $arr['edit_link'] .= " " . $item->task;
+            }
             $result['items'][] = $arr;
         }
         return $result;

@@ -12,5 +12,6 @@
 		<action name="core.edit.value" title="JACTION_EDITVALUE" description="JACTION_EDITVALUE_COMPONENT_DESC" />
 		<action name="core.sections.all" title="COM_PP_SETTINGS_ACCESS_ALL_SECTIONS_TITLE" description="COM_PP_SETTINGS_ACCESS_ALL_SECTIONS_DESC" />
 		<action name="core.tasks.all" title="COM_PP_SETTINGS_ACCESS_ALL_TASKS_TITLE" description="COM_PP_SETTINGS_ACCESS_ALL_TASKS_DESC" />
+		<action name="core.tasks.checked_out" title="COM_PP_SETTINGS_ACCESS_BLOCKED_OPERATIONS_TITLE" description="COM_PP_SETTINGS_ACCESS_BLOCKED_OPERATIONS_DESC" />
 	</section>
 </access>
