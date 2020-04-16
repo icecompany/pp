@@ -83,7 +83,17 @@ class PpModelSections extends ListModel
             $url = JRoute::_("index.php?option={$this->option}&amp;task=section.edit&amp;id={$item->id}");
             $style = (empty($item->parent)) ? 'font-weight: bold;' : '';
             $arr['edit_link'] = JHtml::link($url, $arr['title'], ['style' => $style]);
-            $url = JRoute::_("index.php?option={$this->option}&amp;view=tasks&amp;filter_section=&amp;filter_sub_section={$item->id}&amp;filter_object=&amp;filter_manager=&amp;filter_director=&amp;back=1");
+            $params = [
+                "option" => $this->option,
+                "view" => "tasks",
+                "filter_section" => (!empty($item->parentID)) ? '' : $item->id,
+                "filter_sub_section" => (empty($item->parentID)) ? '' : $item->id,
+                "filter_object" => '',
+                "filter_manager" => '',
+                "filter_director" => '',
+
+            ];
+            $url = JRoute::_("index.php?".http_build_query($params));
             $arr['tasks_link'] = JHtml::link($url, $arr['title'], ['style' => $style]);
             $result['titles'][$item->id] = $item->title;
             if (empty($item->parentID)) {
