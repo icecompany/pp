@@ -11,14 +11,16 @@ $link = JHtml::link($url, JText::sprintf('COM_PP_ACTION_LINK_ADD_OPERATION'));
     <table class="table table-stripped">
         <thead>
             <tr>
-                <td><?php echo JText::sprintf('COM_PP_HEAD_OPERATIONS_DATE_OPERATION');?></td>
-                <td><?php echo JText::sprintf('COM_PP_HEAD_OPERATIONS_TASK');?></td>
+                <th><?php echo JText::sprintf('COM_PP_HEAD_OPERATIONS_DATE_OPERATION');?></th>
+                <th><?php echo JText::sprintf('COM_PP_HEAD_OPERATIONS_STATUS');?></th>
+                <th><?php echo JText::sprintf('COM_PP_HEAD_OPERATIONS_TASK');?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($this->item->operations as $operation): ?>
                 <tr>
                     <td><?php echo $operation['date_operation'];?></td>
+                    <td><?php echo $operation['status'];?></td>
                     <td><?php echo $operation['edit_link'];?></td>
                 </tr>
             <?php endforeach; ?>

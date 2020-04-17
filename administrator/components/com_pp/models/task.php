@@ -25,7 +25,13 @@ class PpModelTask extends AdminModel {
     {
         $data['date_start'] = JDate::getInstance($data['date_start'])->toSql();
         $data['date_end'] = JDate::getInstance($data['date_end'])->toSql();
-        if (!empty($data['result'])) $data['date_close'] = JDate::getInstance()->toSql();
+        if (!empty($data['result'])) {
+            if (!$this->canClose($data['id'])) {
+                JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_PP_MSG_TASK_NOT_CLOSE_BECAUSE_OPERATIONS'), 'error');
+                return false;
+            }
+            $data['date_close'] = JDate::getInstance()->toSql();
+        }
         return parent::save($data);
     }
 
@@ -34,6 +40,19 @@ class PpModelTask extends AdminModel {
         $model = ListModel::getInstance('Operations', 'PpModel', ['taskID' => $taskID]);
         $items = $model->getItems();
         return $items['items'];
+    }
+
+    private function canClose(int $taskID): bool
+    {
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query
+            ->select("count(id)")
+            ->from("#__mkv_pp_operations")
+            ->where("taskID = {$db->q($taskID)}")
+            ->andWhere("date_close is null");
+        $result = (int) $db->setQuery($query)->loadResult() ?? 0;
+        return $result === 0;
     }
 
     public function getTable($name = 'Tasks', $prefix = 'TablePp', $options = array())

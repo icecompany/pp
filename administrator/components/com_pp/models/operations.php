@@ -25,6 +25,7 @@ class PpModelOperations extends ListModel
         parent::__construct($config);
         $input = JFactory::getApplication()->input;
         $this->taskID = (!empty($config['taskID'])) ? $config['taskID'] : 0;
+
         $this->export = ($input->getString('format', 'html') === 'html') ? false : true;
     }
 
@@ -113,10 +114,10 @@ class PpModelOperations extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        $result = array();
+        $result = [];
         $return = PpHelper::getReturnUrl();
         foreach ($items as $i => $item) {
-            $arr = ['items' => []];
+            $arr = [];
             $arr['id'] = $item->id;
             $date_operation = JDate::getInstance($item->date_operation);
             $arr['date_operation'] = $date_operation->format("d.m.Y");
