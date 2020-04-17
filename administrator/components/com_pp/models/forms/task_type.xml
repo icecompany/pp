@@ -15,6 +15,14 @@
                 class="span12"
         />
         <field
+                name="groupID"
+                type="usergroup"
+                label="COM_PP_FORM_TASK_TYPE_GROUP_LABEL"
+                description="COM_PP_FORM_TASK_TYPE_GROUP_DESC"
+                required="true"
+                class="span12"
+        />
+        <field
                 name="id"
                 type="hidden"
         />

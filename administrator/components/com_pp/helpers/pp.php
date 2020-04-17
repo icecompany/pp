@@ -11,8 +11,10 @@ class PpHelper
         HTMLHelper::_('sidebar.addEntry', JText::sprintf('COM_PP_MENU_SECTIONS'), 'index.php?option=com_pp&view=sections', $vName === 'sections');
         HTMLHelper::_('sidebar.addEntry', JText::sprintf('COM_PP_MENU_TASKS'), 'index.php?option=com_pp&view=tasks', $vName === 'tasks');
         HTMLHelper::_('sidebar.addEntry', JText::sprintf('COM_PP_MENU_OPERATIONS'), 'index.php?option=com_pp&view=operations', $vName === 'operations');
-        HTMLHelper::_('sidebar.addEntry', JText::sprintf('COM_PP_MENU_TASK_TYPES'), 'index.php?option=com_pp&view=task_types', $vName === 'task_types');
         HTMLHelper::_('sidebar.addEntry', JText::sprintf('COM_PP_MENU_OBJECTS'), 'index.php?option=com_pp&view=objects', $vName === 'objects');
+        if (self::canDo('core.task_types')) {
+            HTMLHelper::_('sidebar.addEntry', JText::sprintf('COM_PP_MENU_TASK_TYPES'), 'index.php?option=com_pp&view=task_types', $vName === 'task_types');
+        }
     }
 
     public static function getTaskColor(int $status): string

@@ -36,6 +36,9 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo $item['edit_link']; ?>
         </td>
         <td>
+            <?php echo $item['user_group']; ?>
+        </td>
+        <td>
             <?php echo $item['id']; ?>
         </td>
     </tr>

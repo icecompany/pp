@@ -12,6 +12,7 @@ class PpModelTask_types extends ListModel
                 't.id',
                 't.title',
                 't.ordering',
+                'user_group',
                 'search',
             );
         }
@@ -33,7 +34,9 @@ class PpModelTask_types extends ListModel
 
         $query
             ->select("t.id, t.title, t.ordering")
-            ->from("#__mkv_pp_task_types t");
+            ->select("ug.title as user_group")
+            ->from("#__mkv_pp_task_types t")
+            ->leftJoin("#__usergroups ug on ug.id = t.groupID");
         $search = (!$this->export) ? $this->getState('filter.search') : JFactory::getApplication()->input->getString('search', '');
         if (!empty($search)) {
             if (stripos($search, 'id:') !== false) { //Поиск по ID
@@ -47,6 +50,11 @@ class PpModelTask_types extends ListModel
                 $text = $this->_db->q("%{$search}%");
                 $query->where("(t.title like {$text})");
             }
+        }
+
+        $user_group = $this->getState('filter.user_group');
+        if (is_numeric($user_group)) {
+            $query->where("t.groupID = {$this->_db->q($user_group)}");
         }
 
         $query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
@@ -63,6 +71,7 @@ class PpModelTask_types extends ListModel
             $arr = ['items' => []];
             $arr['id'] = $item->id;
             $arr['title'] = $item->title;
+            $arr['user_group'] = $item->user_group;
             $arr['ordering'] = $item->ordering;
             $url = JRoute::_("index.php?option={$this->option}&amp;task=task_type.edit&amp;id={$item->id}");
             $arr['edit_link'] = JHtml::link($url, $item->title);
@@ -75,6 +84,8 @@ class PpModelTask_types extends ListModel
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
+        $user_group = $this->getUserStateFromRequest($this->context . '.filter.user_group', 'filter_user_group');
+        $this->setState('filter.user_group', $user_group);
         parent::populateState($ordering, $direction);
         PpHelper::check_refresh();
     }
@@ -82,6 +93,7 @@ class PpModelTask_types extends ListModel
     protected function getStoreId($id = '')
     {
         $id .= ':' . $this->getState('filter.search');
+        $id .= ':' . $this->getState('filter.user_group');
         return parent::getStoreId($id);
     }
 

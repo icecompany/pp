@@ -13,5 +13,6 @@
 		<action name="core.sections.all" title="COM_PP_SETTINGS_ACCESS_ALL_SECTIONS_TITLE" description="COM_PP_SETTINGS_ACCESS_ALL_SECTIONS_DESC" />
 		<action name="core.tasks.all" title="COM_PP_SETTINGS_ACCESS_ALL_TASKS_TITLE" description="COM_PP_SETTINGS_ACCESS_ALL_TASKS_DESC" />
 		<action name="core.tasks.checked_out" title="COM_PP_SETTINGS_ACCESS_BLOCKED_OPERATIONS_TITLE" description="COM_PP_SETTINGS_ACCESS_BLOCKED_OPERATIONS_DESC" />
+		<action name="core.task_types" title="COM_PP_SETTINGS_ACCESS_TASK_TYPES_TITLE" description="COM_PP_SETTINGS_ACCESS_TASK_TYPES_DESC" />
 	</section>
 </access>
