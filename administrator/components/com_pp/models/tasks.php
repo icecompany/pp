@@ -46,7 +46,7 @@ class PpModelTasks extends ListModel
 
         $query
             ->select("t.id, t.date_start, t.date_end, t.date_close, t.task")
-            ->select("if(t.date_start < current_date and t.date_end < current_date, if (t.date_close is not null, 3, -2), if (t.date_start <= current_date and t.date_end >= current_date, 1, 2)) as status")
+            ->select("if(t.date_start < current_date and t.date_end < current_date, if (t.date_close is not null, 3, -2), if (t.date_start <= current_date and t.date_end >= current_date, if(t.date_close is null, 1, 3), 2)) as status")
             ->select("tt.title as type")
             ->select("s.title as section")
             ->select("s1.title as parent")
