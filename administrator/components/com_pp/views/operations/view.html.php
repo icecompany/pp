@@ -31,19 +31,19 @@ class PpViewOperations extends HtmlView
 
     private function toolbar()
     {
-        $title = (!empty($this->parentTask)) ? JText::sprintf('COM_PP_MENU_OPERATIONS_PARENT', $this->parentTask) : JText::sprintf('COM_PP_MENU_OPERATIONS');
+        $title = (!empty($this->parentTask->task)) ? JText::sprintf('COM_PP_MENU_OPERATIONS_PARENT', $this->parentTask->task) : JText::sprintf('COM_PP_MENU_OPERATIONS');
         JToolBarHelper::title($title, 'list');
 
         if (!empty($this->parentTask)) JToolbarHelper::back();
-        if (PpHelper::canDo('core.create'))
+        if (PpHelper::canDo('core.create') && !empty($this->parentTask->id && !$this->parentTask->date_close))
         {
             JToolbarHelper::addNew('operation.add');
         }
-        if (PpHelper::canDo('core.edit'))
+        if (PpHelper::canDo('core.edit') && !$this->parentTask->date_close)
         {
             JToolbarHelper::editList('operation.edit');
         }
-        if (PpHelper::canDo('core.delete'))
+        if (PpHelper::canDo('core.delete') && !$this->parentTask->date_close)
         {
             JToolbarHelper::deleteList('COM_PP_CONFIRM_REMOVE_OPERATION', 'operations.delete');
         }

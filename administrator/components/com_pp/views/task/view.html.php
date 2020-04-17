@@ -17,8 +17,10 @@ class PpViewTask extends HtmlView {
     }
 
     protected function addToolbar() {
-	    JToolBarHelper::apply('task.apply', 'JTOOLBAR_APPLY');
-        JToolbarHelper::save('task.save', 'JTOOLBAR_SAVE');
+        if (!$this->item->date_close) {
+            JToolBarHelper::apply('task.apply', 'JTOOLBAR_APPLY');
+            JToolbarHelper::save('task.save', 'JTOOLBAR_SAVE');
+        }
         JToolbarHelper::cancel('task.cancel', 'JTOOLBAR_CLOSE');
         JFactory::getApplication()->input->set('hidemainmenu', true);
     }

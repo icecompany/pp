@@ -6,7 +6,7 @@ $url = JRoute::_("index.php?option=com_pp&amp;task=operation.add&amp;taskID={$th
 $link = JHtml::link($url, JText::sprintf('COM_PP_ACTION_LINK_ADD_OPERATION'));
 ?>
 <div class="center"><h2><?php echo JText::sprintf('COM_PP_TITLE_TASK_OPERATIONS');?></h2></div>
-<div><?php echo $link;?></div>
+<div><?php if (!$this->item->date_close) echo $link;?></div>
 <div>
     <table class="table table-stripped">
         <thead>

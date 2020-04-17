@@ -195,7 +195,7 @@ class PpModelOperations extends ListModel
         if ($taskID > 0) {
             $table = parent::getTable('Tasks', 'TablePp');
             $table->load($taskID);
-            return $table->task ?? '';
+            return $table;
         }
         else return '';
     }
