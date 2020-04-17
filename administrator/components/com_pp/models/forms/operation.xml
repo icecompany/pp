@@ -71,9 +71,9 @@
                 default=""
                 >
             <option value="">COM_PP_OPERATION_REPEAT_NO_REPEAT</option>
-            <option value="everyday">COM_PP_OPERATION_REPEAT_EVERYDAY</option>
-            <option value="weekly">COM_PP_OPERATION_REPEAT_WEEKLY</option>
-            <option value="monthly">COM_PP_OPERATION_REPEAT_MONTHLY</option>
+            <option value="day">COM_PP_OPERATION_REPEAT_EVERYDAY</option>
+            <option value="week">COM_PP_OPERATION_REPEAT_WEEKLY</option>
+            <option value="month">COM_PP_OPERATION_REPEAT_MONTHLY</option>
         </field>
     </fieldset>
 </form>

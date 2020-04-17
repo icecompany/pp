@@ -27,7 +27,24 @@ class PpModelOperation extends AdminModel {
             return false;
         }
         if (!empty($data['result'])) $data['date_close'] = JDate::getInstance()->toSql();
-        return parent::save($data);
+        $s1 = parent::save($data);
+        //Повторение задачи
+        if ($data['repeat']) {
+            $need = true;
+            while ($need) {
+                $data['date_operation'] = JDate::getInstance($data['date_operation'])->modify("+1 {$data['repeat']}")->toSql();
+                if (!$this->checkDate($data['taskID'], $data['date_operation'])) {
+                    $need = false;
+                }
+                else {
+                    $data['id'] = null;
+                    $table = $this->getTable();
+                    $table->bind($data);
+                    $table->save($data);
+                }
+            }
+        }
+        return $s1;
     }
 
     public function checkDate(int $taskID, string $date): bool
