@@ -10,6 +10,15 @@
                 autocomplete="off"
                 class="js-stools-search-string"
         />
+        <field
+                name="user_group"
+                type="usergroup"
+                label="COM_PP_FILTER_SELECT_USER_GROUP"
+                description="COM_PP_FILTER_SELECT_USER_GROUP"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PP_FILTER_SELECT_USER_GROUP</option>
+        </field>
     </fields>
     <fields name="list">
         <field
@@ -25,6 +34,8 @@
             <option value="t.title DESC">COM_PP_SORTING_TITLE_DESC</option>
             <option value="t.ordering ASC">COM_PP_SORTING_ORDERING_ASC</option>
             <option value="t.ordering DESC">COM_PP_SORTING_ORDERING_DESC</option>
+            <option value="user_group ASC">COM_PP_SORTING_USER_GROUP_ASC</option>
+            <option value="user_group DESC">COM_PP_SORTING_USER_GROUP_DESC</option>
             <option value="t.id ASC">COM_PP_SORTING_ID_ASC</option>
             <option value="t.id DESC">COM_PP_SORTING_ID_DESC</option>
         </field>
