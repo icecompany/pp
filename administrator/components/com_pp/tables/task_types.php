@@ -7,6 +7,7 @@ class TablePpTask_types extends Table
 {
     var $id = null;
     var $title = null;
+    var $groupID = null;
     var $ordering = null;
 	public function __construct(JDatabaseDriver $db)
 	{
