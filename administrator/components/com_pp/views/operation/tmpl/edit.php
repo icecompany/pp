@@ -22,7 +22,7 @@ HTMLHelper::_('script', 'com_pp/operation.js', array('version' => 'auto', 'relat
                         <div><?php echo $this->loadTemplate('general'); ?></div>
                     </div>
                     <div class="span6">
-
+                        <div><?php echo $this->loadTemplate('advanced'); ?></div>
                     </div>
                 </div>
                 <?php echo JHtml::_('bootstrap.endTab'); ?>

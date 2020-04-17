@@ -10,6 +10,10 @@ class PpViewOperation extends HtmlView {
         $this->item = $this->get('Item');
         $this->script = $this->get('Script');
 
+        if ($this->item->id !== null) {
+            $this->form->removeField('repeat');
+        }
+
         $this->addToolbar();
         $this->setDocument();
 

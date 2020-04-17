@@ -61,4 +61,19 @@
                 type="hidden"
         />
     </fieldset>
+    <fieldset name="advanced">
+        <field
+                name="repeat"
+                type="list"
+                label="COM_PP_FORM_OPERATION_REPEAT_LABEL"
+                description="COM_PP_FORM_OPERATION_REPEAT_DESC"
+                class="span12"
+                default=""
+                >
+            <option value="">COM_PP_OPERATION_REPEAT_NO_REPEAT</option>
+            <option value="everyday">COM_PP_OPERATION_REPEAT_EVERYDAY</option>
+            <option value="weekly">COM_PP_OPERATION_REPEAT_WEEKLY</option>
+            <option value="monthly">COM_PP_OPERATION_REPEAT_MONTHLY</option>
+        </field>
+    </fieldset>
 </form>
