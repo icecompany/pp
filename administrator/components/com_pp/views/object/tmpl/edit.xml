@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_PP_MENU_TASK_TYPE">
+    <layout title="COM_PP_MENU_OBJECT">
         <message>
-            <![CDATA[COM_PP_MENU_TASK_TYPE_DESC]]>
+            <![CDATA[COM_PP_MENU_OBJECT_DESC]]>
 		</message>
     </layout>
     <fieldset name="request">
