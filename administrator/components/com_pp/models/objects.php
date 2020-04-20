@@ -58,9 +58,9 @@ class PpModelObjects extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        $result = array();
+        $result = ['items' => []];
         foreach ($items as $item) {
-            $arr = ['items' => []];
+            $arr = [];
             $arr['id'] = $item->id;
             $arr['title'] = $item->title;
             $arr['ordering'] = $item->ordering;
