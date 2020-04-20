@@ -90,7 +90,7 @@ class PpModelOperations extends ListModel
             $status = $this->getState('filter.status');
             if (is_array($status) && !empty($status)) {
                 $status = implode(", ", $status);
-                $query->having("status in ({$this->_db->q($status)})");
+                $query->having("status in ({$status})");
             }
         }
         else {

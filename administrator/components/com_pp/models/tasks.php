@@ -78,8 +78,9 @@ class PpModelTasks extends ListModel
             }
         }
         $status = $this->getState('filter.status');
-        if (is_numeric($status)) {
-            $query->having("status = {$this->_db->q($status)}");
+        if (is_array($status) && !empty($status)) {
+            $status = implode(", ", $status);
+            $query->having("status in ({$status})");
         }
         $project = $this->getState('filter.project');
         if (is_numeric($project)) {
