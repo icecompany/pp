@@ -89,7 +89,7 @@ class PpModelTask extends AdminModel {
     {
         $all = get_class_vars($table);
         unset($all['_errors']);
-        $nulls = ['contractorID', 'objectID', 'date_close', 'result']; //Поля, которые NULL
+        $nulls = ['contractorID', 'objectID', 'date_close', 'result', 'version_add']; //Поля, которые NULL
         foreach ($all as $field => $v) {
             if (empty($field)) continue;
             if (in_array($field, $nulls)) {

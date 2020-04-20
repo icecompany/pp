@@ -9,6 +9,7 @@ class TablePpTasks extends Table
     var $projectID = null;
     var $sectionID = null;
     var $typeID = null;
+    var $version_add = null;
     var $managerID = null;
     var $directorID = null;
     var $contractorID = null;
