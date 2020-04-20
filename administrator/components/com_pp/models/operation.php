@@ -10,11 +10,10 @@ class PpModelOperation extends AdminModel {
         $taskID = ($item->id !== null) ? $item->taskID : $this->getState('taskID');
         $task = $this->getTask($taskID);
         if ($item->id === null) {
-            $item->date_operation = JDate::getInstance()->format("Y-m-d");
+            $item->date_operation = (JDate::getInstance($task->date_start) > JDate::getInstance()) ? JDate::getInstance($task->date_start) : JDate::getInstance()->format("Y-m-d");
             $item->directorID = $task->directorID;
-            $item->managerID = $task->managerID;
+            $item->managerID = ((int) JFactory::getUser()->id !== 377) ? $task->managerID : 439;
             $item->taskID = $taskID;
-            if ((int) JFactory::getUser()->id === 377) $item->managerID = 439;
         }
         $item->parent_title = $task->task;
         return $item;
