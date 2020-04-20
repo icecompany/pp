@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addrulepath="/administrator/components/com_pp/models/rules">
+    <fieldset name="general">
+        <field
+                name="version"
+                type="text"
+                label="COM_PP_FORM_VERSION_VERSION_LABEL"
+                description="COM_PP_FORM_VERSION_VERSION_DESC"
+                hint="COM_PP_FORM_VERSION_VERSION_HINT"
+                required="true"
+                maxlength="255"
+                class="span12"
+        />
+        <field
+                name="dat"
+                type="calendar"
+                label="COM_PP_FORM_VERSION_DATE_LABEL"
+                description="COM_PP_FORM_VERSION_DATE_DESC"
+                filter="none"
+                required="true"
+                class="span12"
+                format="%d.%m.%Y"
+        />
+        <field
+                name="id"
+                type="hidden"
+        />
+    </fieldset>
+</form>
