@@ -20,11 +20,13 @@ class PpModelOperations extends ListModel
                 'director',
                 'section',
                 'parent',
+                'version',
             );
         }
         parent::__construct($config);
         $input = JFactory::getApplication()->input;
         $this->taskID = (!empty($config['taskID'])) ? $config['taskID'] : 0;
+        $this->versionID = $input->getInt('versionID', 0);
 
         $this->export = ($input->getString('format', 'html') === 'html') ? false : true;
     }
@@ -55,7 +57,7 @@ class PpModelOperations extends ListModel
             ->leftJoin("#__users u on u.id = o.checked_out")
             ->leftJoin("#__mkv_pp_versions v on v.id = t.version_add");
 
-        if ($this->taskID === 0) {
+        if ($this->taskID === 0 && $this->versionID === 0) {
             $search = (!$this->export) ? $this->getState('filter.search') : JFactory::getApplication()->input->getString('search', '');
             if (!empty($search)) {
                 if (stripos($search, 'id:') !== false) { //Поиск по ID
@@ -92,7 +94,12 @@ class PpModelOperations extends ListModel
             }
         }
         else {
-            $query->where("o.taskID = {$this->_db->q($this->taskID)}");
+            if ($this->taskID > 0) {
+                $query->where("o.taskID = {$this->_db->q($this->taskID)}");
+            }
+            if ($this->versionID > 0) {
+                $query->where("t.version_add = {$this->_db->q($this->versionID)}");
+            }
         }
         $date = $this->getState('filter.date');
         $date_2 = $this->getState('filter.date_2');
@@ -258,5 +265,5 @@ class PpModelOperations extends ListModel
         return $arr;
     }
 
-    private $export, $taskID;
+    private $export, $taskID, $versionID;
 }
