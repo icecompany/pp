@@ -29,6 +29,13 @@
                 class="span12"
         />
         <field
+                name="version_add"
+                type="Version"
+                label="COM_PP_FORM_TASK_VERSION_ADD_LABEL"
+                description="COM_PP_FORM_TASK_VERSION_ADD_DESC"
+                class="span12"
+        />
+        <field
                 name="projectID"
                 type="Project"
                 label="COM_PP_FORM_TASK_PROJECT_LABEL"

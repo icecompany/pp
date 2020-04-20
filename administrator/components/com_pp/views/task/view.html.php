@@ -13,6 +13,11 @@ class PpViewTask extends HtmlView {
         $this->addToolbar();
         $this->setDocument();
 
+        //Скрываем поля, доступные только для релиза
+        if ($this->item->id === null || ($this->item->id !== null && (int) $this->typeID !== 2)) {
+            $this->form->removeField('version_add');
+        }
+
         parent::display($tmp);
     }
 
