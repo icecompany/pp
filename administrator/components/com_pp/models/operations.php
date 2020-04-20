@@ -44,6 +44,7 @@ class PpModelOperations extends ListModel
             ->select("o.id, o.date_operation, o.task, o.result")
             ->select("if(o.date_operation < current_date and o.date_close is null, -2, if(o.date_operation < current_date and o.date_close is not null, 3, if(o.date_operation >= current_date, if(o.date_close is not null, 3, if(week(o.date_operation) > week(curdate()), 2, 1)),0))) as status")
             ->select("o.checked_out_time, o.checked_out, u.name as block")
+            ->select("v.version")
             ->select("t.task as task_title")
             ->select("s1.title as section")
             ->select("s2.title as parent")
@@ -51,7 +52,8 @@ class PpModelOperations extends ListModel
             ->leftJoin("#__mkv_pp_tasks t on t.id = o.taskID")
             ->leftJoin("#__mkv_pp_sections s1 on s1.id = t.sectionID")
             ->leftJoin("#__mkv_pp_sections s2 on s2.id = s1.parentID")
-            ->leftJoin("#__users u on u.id = o.checked_out");
+            ->leftJoin("#__users u on u.id = o.checked_out")
+            ->leftJoin("#__mkv_pp_versions v on v.id = t.version_add");
 
         if ($this->taskID === 0) {
             $search = (!$this->export) ? $this->getState('filter.search') : JFactory::getApplication()->input->getString('search', '');

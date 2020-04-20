@@ -45,7 +45,7 @@ class PpModelTasks extends ListModel
         $limit = (!$this->export) ? $this->getState('list.limit') : 0;
 
         $query
-            ->select("t.id, t.date_start, t.date_end, t.date_close, t.task")
+            ->select("t.id, t.date_start, t.date_end, t.date_close, t.task, v.version")
             ->select("if(t.date_start < current_date and t.date_end < current_date, if (t.date_close is not null, 3, -2), if (t.date_start <= current_date and t.date_end >= current_date, if(t.date_close is null, 1, 3), 2)) as status")
             ->select("tt.title as type")
             ->select("s.title as section")
@@ -61,7 +61,8 @@ class PpModelTasks extends ListModel
             ->leftJoin("#__mkv_pp_objects o on o.id = t.objectID")
             ->leftJoin("#__mkv_companies c on c.id = t.contractorID")
             ->leftJoin("#__users u1 on u1.id = t.managerID")
-            ->leftJoin("#__users u2 on u2.id = t.directorID");
+            ->leftJoin("#__users u2 on u2.id = t.directorID")
+            ->leftJoin("#__mkv_pp_versions v on v.id = t.version_add");
         $search = (!$this->export) ? $this->getState('filter.search') : JFactory::getApplication()->input->getString('search', '');
         if (!empty($search)) {
             if (stripos($search, 'id:') !== false) { //Поиск по ID
@@ -127,6 +128,7 @@ class PpModelTasks extends ListModel
             $arr['section'] = $item->section;
             $arr['parent'] = $item->parent;
             $arr['object'] = $item->object;
+            $arr['version_add'] = $item->version_add;
             $arr['contractor'] = $item->contractor;
             $manager = explode(" ", $item->manager);
             $director = explode(" ", $item->director);
