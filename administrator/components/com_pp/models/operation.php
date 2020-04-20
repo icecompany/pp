@@ -14,6 +14,7 @@ class PpModelOperation extends AdminModel {
             $item->directorID = $task->directorID;
             $item->managerID = $task->managerID;
             $item->taskID = $taskID;
+            if ((int) JFactory::getUser()->id === 377) $item->managerID = 439;
         }
         $item->parent_title = $task->task;
         return $item;
