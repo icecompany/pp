@@ -63,7 +63,7 @@ class PpModelVersions extends ListModel
             $arr = [];
             $arr['id'] = $item->id;
             $arr['version'] = $item->version;
-            $arr['dat'] = $item->dat;
+            $arr['dat'] = JDate::getInstance($item->dat)->format("d.m.Y");
             $url = JRoute::_("index.php?option={$this->option}&amp;task=version.edit&amp;id={$item->id}");
             $arr['edit_link'] = JHtml::link($url, $item->version);
             $result['items'][] = $arr;

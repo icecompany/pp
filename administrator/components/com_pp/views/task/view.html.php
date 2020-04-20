@@ -14,7 +14,7 @@ class PpViewTask extends HtmlView {
         $this->setDocument();
 
         //Скрываем поля, доступные только для релиза
-        if ($this->item->id === null || ($this->item->id !== null && (int) $this->typeID !== 2)) {
+        if (!PpHelper::canDo('core.task_types') || ((int) $this->typeID !== 2) && $this->item->id !== null) {
             $this->form->removeField('version_add');
         }
 

@@ -34,7 +34,9 @@
                 label="COM_PP_FORM_TASK_VERSION_ADD_LABEL"
                 description="COM_PP_FORM_TASK_VERSION_ADD_DESC"
                 class="span12"
-        />
+        >
+            <option value="">COM_PP_FILTER_SELECT_VERSION</option>
+        </field>
         <field
                 name="projectID"
                 type="Project"

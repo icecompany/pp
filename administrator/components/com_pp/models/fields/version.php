@@ -21,7 +21,7 @@ class JFormFieldVersion extends JFormFieldList
         $options = array();
 
         foreach ($result as $item) {
-            $options[] = JHtml::_('select.option', $item->id, sprintf("%s (%s)", $item->version, $item->dat));
+            $options[] = JHtml::_('select.option', $item->id, sprintf("%s (%s)", $item->version, JDate::getInstance($item->dat)->format("d.m.Y")));
         }
 
         if (!$this->loadExternally) {
