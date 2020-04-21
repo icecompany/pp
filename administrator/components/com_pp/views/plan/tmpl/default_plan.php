@@ -41,6 +41,9 @@ foreach ($this->items['sections']['parents'] as $parentID => $parent) :
                     <?php echo $item['operations_link']; ?>
                 </td>
                 <td>
+                    <?php echo $this->items['active'][$item['id']] ?? 0; ?>
+                </td>
+                <td>
                     <?php echo $item['manager']; ?>
                 </td>
                 <td>

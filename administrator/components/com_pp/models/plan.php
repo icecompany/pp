@@ -119,9 +119,11 @@ class PpModelPlan extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        $result = ['items' => [], 'sections' => $this->getSections(), 'managers' => []];
+        $result = ['items' => [], 'sections' => $this->getSections(), 'managers' => [], 'active' => []];
+        $ids = [];
         foreach ($items as $item) {
             $arr = [];
+            $ids[] = $item->id;
             $arr['id'] = $item->id;
             $arr['task'] = $item->task;
             $arr['type'] = $item->type;
@@ -154,7 +156,21 @@ class PpModelPlan extends ListModel
             if (!isset($result['managers'][$item->managerID][$item->sectionID])) $result['managers'][$item->managerID][$item->sectionID] = 0;
             $result['managers'][$item->managerID][$item->sectionID]++;
         }
+        //Кол-во активных операционных задач
+        $result['active'] = $this->getOperationsCount($ids ?? []);
 
+        return $result;
+    }
+
+    private function getOperationsCount(array $ids = array()): array
+    {
+        $model = ListModel::getInstance('Operations', 'PpModel', ['taskID' => 0, 'taskIDs' => $ids, 'statuses' => [-2, 1, 2]]);
+        $items = $model->getItems();
+        $result = [];
+        foreach ($items['items'] as $item) {
+            if(!isset($result[$item['taskID']])) $result[$item['taskID']] = 0;
+            $result[$item['taskID']]++;
+        }
         return $result;
     }
 
@@ -164,11 +180,12 @@ class PpModelPlan extends ListModel
         $heads = $this->getColumnHeads();
         JLoader::discover('PHPExcel', JPATH_LIBRARIES);
         JLoader::register('PHPExcel', JPATH_LIBRARIES . '/PHPExcel.php');
+        $managerID = $this->state->get('filter.manager');
         $xls = new PHPExcel();
         $xls->setActiveSheetIndex(0);
         $sheet = $xls->getActiveSheet();
         //Ширина столбцов
-        $width = array("A" => 12, "B" => 84, "C" => 18, "D" => 15, "E" => 34, "F" => 14, "G" => 14, "H" => 14);
+        $width = array("A" => 12, "B" => 84, "C" => 15, "D" => 18, "E" => 15, "F" => 34, "G" => 14, "H" => 14, "I" => 14);
         foreach ($width as $col => $value) {
             $sheet->getColumnDimension($col)->setWidth($value);
         }
@@ -179,16 +196,18 @@ class PpModelPlan extends ListModel
         }
         $str = 2;
         foreach ($items['sections']['parents'] as $parentID => $parent) {
+            if (is_numeric($managerID) && $items['managers'][$managerID][$parentID] < 1) continue;
             //Раздел
-            $sheet->mergeCells("A{$str}:H{$str}");
+            $sheet->mergeCells("A{$str}:I{$str}");
             $column = "A{$str}";
             $sheet->setCellValue($column, $parent['title']);
             $sheet->getStyle($column)->getFont()->setBold(true);
             $sheet->getStyle($column)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $str++;
             foreach ($items['sections']['items'][$parentID] as $section) {
+                if (is_numeric($managerID) && $items['managers'][$managerID][$section['id']] < 1) continue;
                 //Подраздел
-                $sheet->mergeCells("A{$str}:H{$str}");
+                $sheet->mergeCells("A{$str}:I{$str}");
                 $column = "A{$str}";
                 $sheet->setCellValue($column, $section['title']);
                 $sheet->getStyle($column)->getFont()->setBold(true);
@@ -198,12 +217,13 @@ class PpModelPlan extends ListModel
                     $sheet->setCellValue("A{$str}", $item['status_export']);
                     $sheet->getStyle("A{$str}")->getFont()->getColor()->setRGB(str_ireplace("#", "", $item['color']));
                     $sheet->setCellValue("B{$str}", $item['task']);
-                    $sheet->setCellValue("C{$str}", $item['manager']);
-                    $sheet->setCellValue("D{$str}", $item['director']);
-                    $sheet->setCellValue("E{$str}", $item['contractor']);
-                    $sheet->setCellValue("F{$str}", $item['date_close']);
-                    $sheet->setCellValue("G{$str}", $item['date_start']);
-                    $sheet->setCellValue("H{$str}", $item['date_end']);
+                    $sheet->setCellValue("C{$str}", $items['active'][$item['id']] ?? 0);
+                    $sheet->setCellValue("D{$str}", $item['manager']);
+                    $sheet->setCellValue("E{$str}", $item['director']);
+                    $sheet->setCellValue("F{$str}", $item['contractor']);
+                    $sheet->setCellValue("G{$str}", $item['date_close']);
+                    $sheet->setCellValue("H{$str}", $item['date_start']);
+                    $sheet->setCellValue("I{$str}", $item['date_end']);
                     $str++;
                 }
             }
@@ -242,12 +262,13 @@ class PpModelPlan extends ListModel
         $result = [];
         $result["A1"] = JText::sprintf('COM_PP_HEAD_TASKS_STATUS');
         $result["B1"] = JText::sprintf('COM_PP_HEAD_TASKS_TASK');
-        $result["C1"] = JText::sprintf('COM_PP_HEAD_MANAGER');
-        $result["D1"] = JText::sprintf('COM_PP_HEAD_DIRECTOR');
-        $result["E1"] = JText::sprintf('COM_PP_HEAD_TASKS_CONTRACTOR');
-        $result["F1"] = JText::sprintf('COM_PP_HEAD_TASKS_DATE_CLOSE');
-        $result["G1"] = JText::sprintf('COM_PP_HEAD_TASKS_DATE_START');
-        $result["H1"] = JText::sprintf('COM_PP_HEAD_TASKS_DATE_END');
+        $result["C1"] = JText::sprintf('COM_PP_HEAD_TASKS_ACTIVE_OPERATIONS');
+        $result["D1"] = JText::sprintf('COM_PP_HEAD_MANAGER');
+        $result["E1"] = JText::sprintf('COM_PP_HEAD_DIRECTOR');
+        $result["F1"] = JText::sprintf('COM_PP_HEAD_TASKS_CONTRACTOR');
+        $result["G1"] = JText::sprintf('COM_PP_HEAD_TASKS_DATE_CLOSE');
+        $result["H1"] = JText::sprintf('COM_PP_HEAD_TASKS_DATE_START');
+        $result["I1"] = JText::sprintf('COM_PP_HEAD_TASKS_DATE_END');
         return $result;
     }
 

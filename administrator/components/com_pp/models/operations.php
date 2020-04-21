@@ -27,7 +27,8 @@ class PpModelOperations extends ListModel
         parent::__construct($config);
         $input = JFactory::getApplication()->input;
         $this->taskID = (!empty($config['taskID'])) ? $config['taskID'] : 0;
-        $this->versionID = $input->getInt('versionID', 0);
+        $this->taskIDs = (!empty($config['taskIDs'])) ? $config['taskIDs'] : array();
+        $this->statuses = (!empty($config['statuses'])) ? $config['statuses'] : array();
 
         $this->export = ($input->getString('format', 'html') === 'html') ? false : true;
     }
@@ -41,16 +42,16 @@ class PpModelOperations extends ListModel
         $orderDirn = $this->state->get('list.direction');
 
         //Ограничение длины списка
-        $limit = (!$this->export && $this->taskID === 0) ? $this->getState('list.limit') : 0;
+        $limit = (!$this->export && $this->taskID === 0 && empty($this->taskIDs) && empty($this->statuses)) ? $this->getState('list.limit') : 0;
 
         $query
-            ->select("o.id, o.date_operation, o.task, o.result")
+            ->select("o.id, o.date_operation, o.task, o.result, o.taskID")
             ->select("if(o.date_operation < current_date and o.date_close is null, -2, if(o.date_operation < current_date and o.date_close is not null, 3, if(o.date_operation >= current_date, if(o.date_close is not null, 3, if(week(o.date_operation) > week(curdate()), 2, 1)),0))) as status")
             ->select("o.checked_out_time, o.checked_out, u.name as block")
             ->select("v.version")
             ->select("t.task as task_title")
-            ->select("s1.title as section")
-            ->select("s2.title as parent")
+            ->select("s1.title as section, t.sectionID")
+            ->select("s2.title as parent, s1.parentID")
             ->from("#__mkv_pp_operations o")
             ->leftJoin("#__mkv_pp_tasks t on t.id = o.taskID")
             ->leftJoin("#__mkv_pp_sections s1 on s1.id = t.sectionID")
@@ -58,7 +59,7 @@ class PpModelOperations extends ListModel
             ->leftJoin("#__users u on u.id = o.checked_out")
             ->leftJoin("#__mkv_pp_versions v on v.id = t.version_add");
 
-        if ($this->taskID === 0 && $this->versionID === 0) {
+        if ($this->taskID === 0 && empty($this->taskIDs) && empty($this->statuses)) {
             $search = (!$this->export) ? $this->getState('filter.search') : JFactory::getApplication()->input->getString('search', '');
             if (!empty($search)) {
                 if (stripos($search, 'id:') !== false) { //Поиск по ID
@@ -98,8 +99,11 @@ class PpModelOperations extends ListModel
             if ($this->taskID > 0) {
                 $query->where("o.taskID = {$this->_db->q($this->taskID)}");
             }
-            if ($this->versionID > 0) {
-                $query->where("t.version_add = {$this->_db->q($this->versionID)}");
+            if (!empty($this->statuses) && !empty($this->taskIDs)) {
+                $statuses = implode(", ", $this->statuses);
+                $query->having("status in ({$statuses})");
+                $taskIDs = implode(", ", $this->taskIDs);
+                $query->where("o.taskID in ({$taskIDs})");
             }
         }
         $date = $this->getState('filter.date');
@@ -133,10 +137,13 @@ class PpModelOperations extends ListModel
             $arr['date_operation'] = $date_operation->format("d.m.Y");
             $arr['date_close'] = (!empty($item->date_close)) ? JDate::getInstance($item->date_close)->format("d.m.Y") : '';
             $arr['task'] = $item->task;
+            $arr['taskID'] = $item->taskID;
             $arr['result'] = $item->result;
             $arr['task_title'] = $item->task_title;
             $arr['section'] = $item->section;
+            $arr['sectionID'] = $item->sectionID;
             $arr['parent'] = $item->parent;
+            $arr['parentID'] = $item->parentID;
             $manager = explode(" ", $item->manager);
             $director = explode(" ", $item->director);
             $arr['director'] = $director[0];
@@ -266,5 +273,5 @@ class PpModelOperations extends ListModel
         return $arr;
     }
 
-    private $export, $taskID, $versionID;
+    private $export, $taskID, $taskIDs, $statuses;
 }
