@@ -45,7 +45,7 @@ class PpModelPlan extends ListModel
         $limit = 0;
 
         $query
-            ->select("t.id, t.date_start, t.date_end, t.date_close, t.task")
+            ->select("t.id, t.date_start, t.date_end, t.date_close, t.task, t.managerID")
             ->select("if(t.date_start < current_date and t.date_end < current_date, if (t.date_close is not null, 3, -2), if (t.date_start <= current_date and t.date_end >= current_date, if(t.date_close is not null, 3, 1), 2)) as status")
             ->select("tt.title as type")
             ->select("s.id as sectionID, s.title as section")
@@ -119,7 +119,7 @@ class PpModelPlan extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        $result = ['items' => [], 'sections' => $this->getSections()];
+        $result = ['items' => [], 'sections' => $this->getSections(), 'managers' => []];
         foreach ($items as $item) {
             $arr = [];
             $arr['id'] = $item->id;
@@ -148,6 +148,11 @@ class PpModelPlan extends ListModel
             $url = JRoute::_("index.php?option={$this->option}&amp;view=operations&amp;taskID={$item->id}");
             $arr['operations_link'] = JHtml::link($url, $item->task);
             $result['items'][$item->sectionID][] = $arr;
+            //Прибавляем количество задач в текущем разделе у менеджера
+            if (!isset($result['managers'][$item->managerID][$item->parentID])) $result['managers'][$item->managerID][$item->parentID] = 0;
+            $result['managers'][$item->managerID][$item->parentID]++;
+            if (!isset($result['managers'][$item->managerID][$item->sectionID])) $result['managers'][$item->managerID][$item->sectionID] = 0;
+            $result['managers'][$item->managerID][$item->sectionID]++;
         }
 
         return $result;
