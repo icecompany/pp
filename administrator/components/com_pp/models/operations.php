@@ -11,6 +11,7 @@ class PpModelOperations extends ListModel
             $config['filter_fields'] = array(
                 'o.id',
                 'o.title',
+                'o.date_operation',
                 'o.ordering',
                 'search',
                 'manager',
