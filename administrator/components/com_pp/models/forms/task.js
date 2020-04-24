@@ -12,9 +12,15 @@ Joomla.submitbutton = function (task) {
     }
 };
 
-window.onload = function () {
+window.addEventListener('DOMContentLoaded', function () {
     getDirector();
-};
+});
+
+function setTaskType(version) {
+    let field = document.querySelector("#jform_typeID");
+    field.value = (version !== '') ? '2' : '1';
+    jQuery(field).trigger("liszt:updated");
+}
 
 function getDirector() {
     let section = document.querySelector("#jform_sectionID");
