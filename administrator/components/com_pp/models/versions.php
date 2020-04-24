@@ -58,15 +58,24 @@ class PpModelVersions extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        $result = ['items' => []];
+        $result = ['items' => [], 'tasks' => []];
+        $ids = [];
         foreach ($items as $item) {
             $arr = [];
+            $ids[] = $item->id;
             $arr['id'] = $item->id;
             $arr['version'] = $item->version;
             $arr['dat'] = JDate::getInstance($item->dat)->format("d.m.Y");
             $url = JRoute::_("index.php?option={$this->option}&amp;task=version.edit&amp;id={$item->id}");
             $arr['edit_link'] = JHtml::link($url, $item->version);
             $result['items'][] = $arr;
+        }
+        if (!empty($ids));
+        $tasks_model = ListModel::getInstance('Tasks', 'PpModel', ['versions' => $ids ?? []]);
+        $tasks = $tasks_model->getItems();
+        foreach ($tasks['items'] as $task) {
+            $url = JRoute::link("site", "index.php?option={$this->option}&amp;view=operations&amp;taskID={$task['id']}");
+            $result['tasks'][$task['version_id']] = JHtml::link($url, JText::sprintf('COM_PP_ACTION_LINK_SHOW_VERSION_OPERATIONS'), ['target' => '_blank']);
         }
         return $result;
     }

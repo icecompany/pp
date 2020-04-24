@@ -23,8 +23,8 @@
             <option value="">JGLOBAL_SORT_BY</option>
             <option value="v.version ASC">COM_PP_SORTING_VERSION_ASC</option>
             <option value="v.version DESC">COM_PP_SORTING_VERSION_DESC</option>
-            <option value="v.dat ASC">COM_PP_SORTING_DATE_ASC</option>
-            <option value="v.dat DESC">COM_PP_SORTING_DATE_DESC</option>
+            <option value="v.dat desc, v.id ASC">COM_PP_SORTING_DATE_ASC</option>
+            <option value="v.dat desc, v.id DESC">COM_PP_SORTING_DATE_DESC</option>
             <option value="v.id ASC">COM_PP_SORTING_ID_ASC</option>
             <option value="v.id DESC">COM_PP_SORTING_ID_DESC</option>
         </field>

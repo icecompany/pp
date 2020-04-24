@@ -29,6 +29,7 @@ class PpModelTasks extends ListModel
         parent::__construct($config);
         $input = JFactory::getApplication()->input;
         $this->export = ($input->getString('format', 'html') === 'html') ? false : true;
+        $this->versions = (!empty($config['versions'])) ? $config['versions'] : null;
     }
 
     protected function _getListQuery()
@@ -42,7 +43,7 @@ class PpModelTasks extends ListModel
         $userID = JFactory::getUser()->id;
 
         //Ограничение длины списка
-        $limit = (!$this->export) ? $this->getState('list.limit') : 0;
+        $limit = (!$this->export && $this->versions !== null) ? $this->getState('list.limit') : 0;
 
         $query
             ->select("t.id, t.date_start, t.date_end, t.date_close, t.task, v.version")
@@ -54,6 +55,7 @@ class PpModelTasks extends ListModel
             ->select("u1.name as manager")
             ->select("u2.name as director")
             ->select("c.title as contractor")
+            ->select("v.id as version_id")
             ->from("#__mkv_pp_tasks t")
             ->leftJoin("#__mkv_pp_task_types tt on tt.id = t.typeID")
             ->leftJoin("#__mkv_pp_sections s on s.id = t.sectionID")
@@ -63,55 +65,60 @@ class PpModelTasks extends ListModel
             ->leftJoin("#__users u1 on u1.id = t.managerID")
             ->leftJoin("#__users u2 on u2.id = t.directorID")
             ->leftJoin("#__mkv_pp_versions v on v.id = t.version_add");
-        $search = (!$this->export) ? $this->getState('filter.search') : JFactory::getApplication()->input->getString('search', '');
-        if (!empty($search)) {
-            if (stripos($search, 'id:') !== false) { //Поиск по ID
-                $id = explode(':', $search);
-                $id = $id[1];
-                if (is_numeric($id)) {
-                    $query->where("t.id = {$this->_db->q($id)}");
+        if (is_array($this->versions) && !empty($this->versions)) {
+            $versions = implode(", ", $this->versions);
+            $query->where("t.version_add in ({$versions})");
+        }
+        else {
+            $search = (!$this->export) ? $this->getState('filter.search') : JFactory::getApplication()->input->getString('search', '');
+            if (!empty($search)) {
+                if (stripos($search, 'id:') !== false) { //Поиск по ID
+                    $id = explode(':', $search);
+                    $id = $id[1];
+                    if (is_numeric($id)) {
+                        $query->where("t.id = {$this->_db->q($id)}");
+                    }
+                } else {
+                    $text = $this->_db->q("%{$search}%");
+                    $query->where("(t.task like {$text} or t.result like {$text})");
                 }
             }
-            else {
-                $text = $this->_db->q("%{$search}%");
-                $query->where("(t.task like {$text} or t.result like {$text})");
+            $status = $this->getState('filter.status');
+            if (is_array($status) && !empty($status)) {
+                $status = implode(", ", $status);
+                $query->having("status in ({$status})");
             }
-        }
-        $status = $this->getState('filter.status');
-        if (is_array($status) && !empty($status)) {
-            $status = implode(", ", $status);
-            $query->having("status in ({$status})");
-        }
-        $project = $this->getState('filter.project');
-        if (is_numeric($project)) {
-            $query->where("t.projectID = {$this->_db->q($project)}");
-        }
-        $object = $this->getState('filter.object');
-        if (is_numeric($object)) {
-            $query->where("t.objectID = {$this->_db->q($object)}");
-        }
-        $section = $this->getState('filter.section');
-        if (is_numeric($section)) {
-            $query->where("s.parentID = {$this->_db->q($section)}");
-        }
-        $sub_section = $this->getState('filter.sub_section');
-        if (is_numeric($sub_section)) {
-            $query->where("t.sectionID = {$this->_db->q($sub_section)}");
-        }
-        $manager = $this->getState('filter.manager');
-        if (is_numeric($manager)) {
-            $query->where("t.managerID = {$this->_db->q($manager)}");
-        }
-        $director = $this->getState('filter.director');
-        if (is_numeric($director)) {
-            $query->where("t.directorID = {$this->_db->q($director)}");
-        }
+            $project = $this->getState('filter.project');
+            if (is_numeric($project)) {
+                $query->where("t.projectID = {$this->_db->q($project)}");
+            }
+            $object = $this->getState('filter.object');
+            if (is_numeric($object)) {
+                $query->where("t.objectID = {$this->_db->q($object)}");
+            }
+            $section = $this->getState('filter.section');
+            if (is_numeric($section)) {
+                $query->where("s.parentID = {$this->_db->q($section)}");
+            }
+            $sub_section = $this->getState('filter.sub_section');
+            if (is_numeric($sub_section)) {
+                $query->where("t.sectionID = {$this->_db->q($sub_section)}");
+            }
+            $manager = $this->getState('filter.manager');
+            if (is_numeric($manager)) {
+                $query->where("t.managerID = {$this->_db->q($manager)}");
+            }
+            $director = $this->getState('filter.director');
+            if (is_numeric($director)) {
+                $query->where("t.directorID = {$this->_db->q($director)}");
+            }
 
-        $query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
-        $this->setState('list.limit', $limit);
+            $query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
+            $this->setState('list.limit', $limit);
 
-        if (!PpHelper::canDo('core.tasks.all')) {
-            $query->where("(s.managerID = {$userID} or s1.managerID = {$userID})");
+            if (!PpHelper::canDo('core.tasks.all')) {
+                $query->where("(s.managerID = {$userID} or s1.managerID = {$userID})");
+            }
         }
 
         return $query;
@@ -122,7 +129,7 @@ class PpModelTasks extends ListModel
         $items = parent::getItems();
         $result = array();
         foreach ($items as $item) {
-            $arr = ['items' => []];
+            $arr = [];
             $arr['id'] = $item->id;
             $arr['task'] = $item->task;
             $arr['type'] = $item->type;
@@ -130,6 +137,7 @@ class PpModelTasks extends ListModel
             $arr['parent'] = $item->parent;
             $arr['object'] = $item->object;
             $arr['version_add'] = $item->version_add;
+            $arr['version_id'] = $item->version_id;
             $arr['contractor'] = $item->contractor;
             $manager = explode(" ", $item->manager);
             $director = explode(" ", $item->director);
@@ -212,5 +220,5 @@ class PpModelTasks extends ListModel
         return parent::getStoreId($id);
     }
 
-    private $export;
+    private $export, $versions;
 }

@@ -17,6 +17,9 @@ foreach ($this->items['items'] as $i => $item) :
             <?php echo $item['dat']; ?>
         </td>
         <td>
+            <?php echo $this->items['tasks'][$item['id']]; ?>
+        </td>
+        <td>
             <?php echo $item['id']; ?>
         </td>
     </tr>
