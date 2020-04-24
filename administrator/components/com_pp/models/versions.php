@@ -11,7 +11,7 @@ class PpModelVersions extends ListModel
             $config['filter_fields'] = array(
                 'v.id',
                 'v.version',
-                'v.dat',
+                'v.dat desc, v.id',
                 'search',
             );
         }
@@ -71,7 +71,7 @@ class PpModelVersions extends ListModel
         return $result;
     }
 
-    protected function populateState($ordering = 'v.dat', $direction = 'desc')
+    protected function populateState($ordering = 'v.dat desc, v.id', $direction = 'desc')
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);

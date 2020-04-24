@@ -14,7 +14,7 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
         <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_VERSIONS_VERSION', 'v.version', $listDirn, $listOrder); ?>
     </th>
     <th>
-        <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_VERSIONS_DATE', 'v.dat', $listDirn, $listOrder); ?>
+        <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_VERSIONS_DATE', 'v.dat desc, v.id', $listDirn, $listOrder); ?>
     </th>
     <th style="width: 1%;">
         <?php echo JHtml::_('searchtools.sort', 'ID', 'v.id', $listDirn, $listOrder); ?>

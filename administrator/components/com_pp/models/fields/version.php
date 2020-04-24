@@ -15,7 +15,7 @@ class JFormFieldVersion extends JFormFieldList
         $query
             ->select("v.id, v.version, v.dat")
             ->from("`#__mkv_pp_versions` v")
-            ->order("v.dat desc");
+            ->order("v.dat desc, v.id desc");
         $result = $db->setQuery($query)->loadObjectList();
 
         $options = array();
