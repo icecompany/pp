@@ -11,9 +11,9 @@ class PpModelTask extends AdminModel {
         if ($item->id === null) {
             $item->date_start = JDate::getInstance()->format("Y-m-d");
             $item->date_end = JDate::getInstance(time() + 86400 * 7)->format("Y-m-d");
-            $item->managerID = JFactory::getUser()->id;
+            $item->managerID = ((int) JFactory::getUser()->id !== 377) ? JFactory::getUser()->id : 439;
             $item->contractorID = "";
-            $item->sectionID = $this->getState('sectionID');
+            $item->sectionID = JFactory::getApplication()->getUserStateFromRequest("{$this->option}.tasks.filter.sub_section", 'filter_sub_section');
         }
         else {
             $item->operations = $this->getOperations($item->id);
