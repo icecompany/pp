@@ -26,9 +26,11 @@ class PpModelTask extends AdminModel {
         $data['date_start'] = JDate::getInstance($data['date_start'])->toSql();
         $data['date_end'] = JDate::getInstance($data['date_end'])->toSql();
         if (!empty($data['result'])) {
-            if (!$this->canClose($data['id'])) {
-                JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_PP_MSG_TASK_NOT_CLOSE_BECAUSE_OPERATIONS'), 'error');
-                return false;
+            if (!empty($data['id'])) {
+                if (!$this->canClose($data['id'])) {
+                    JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_PP_MSG_TASK_NOT_CLOSE_BECAUSE_OPERATIONS'), 'error');
+                    return false;
+                }
             }
             $data['date_close'] = JDate::getInstance()->toSql();
         }
