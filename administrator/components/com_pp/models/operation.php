@@ -26,7 +26,12 @@ class PpModelOperation extends AdminModel {
             JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_PP_ERROR_OPERATION_DATE_NOT_RANGE'), 'error');
             return false;
         }
-        if (!empty($data['result'])) $data['date_close'] = JDate::getInstance()->toSql();
+        if (!empty($data['result'])) {
+            $data['date_close'] = JDate::getInstance()->toSql();
+            //Если закрываем задачу раньше времени, изменяем её дату на текущую
+            $current_date = JDate::getInstance()->toSql();
+            if ($data['date_operation'] > $current_date) $data['date_operation'] = $current_date;
+        }
         $s1 = parent::save($data);
         //Повторение задачи
         if ($data['repeat']) {
