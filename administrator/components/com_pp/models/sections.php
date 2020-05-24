@@ -107,7 +107,7 @@ class PpModelSections extends ListModel
         return $result;
     }
 
-    protected function populateState($ordering = 's.ordering', $direction = 'asc')
+    protected function populateState($ordering = 's.ordering', $direction = 'ASC')
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);

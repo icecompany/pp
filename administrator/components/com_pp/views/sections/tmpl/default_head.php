@@ -14,10 +14,10 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
         №
     </th>
     <th>
-        <?php echo JText::sprintf('COM_PP_HEAD_TITLE'); ?>
+        <?php echo JText::sprintf('COM_MKV_HEAD_TITLE'); ?>
     </th>
     <th>
-        <?php echo JHtml::_('searchtools.sort', 'COM_PP_HEAD_DIRECTOR', 'manager', $listDirn, $listOrder); ?>
+        <?php echo JHtml::_('searchtools.sort', 'COM_MKV_HEAD_RESPONSIBLE', 'manager', $listDirn, $listOrder); ?>
     </th>
     <th style="width: 1%;">
         <?php echo JHtml::_('searchtools.sort', 'ID', 's.id', $listDirn, $listOrder); ?>
