@@ -19,7 +19,6 @@ HTMLHelper::_('script', 'com_pp/script.js', array('version' => 'auto', 'relative
         <form action="<?php echo PpHelper::getActionUrl(); ?>" method="post"
               name="adminForm" id="adminForm">
             <?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-            <div><?php echo $this->loadTemplate('export'); ?></div>
             <table class="table table-striped" id="itemList">
                 <?php echo $this->loadTemplate('head');?>
                 <?php echo $this->loadTemplate('plan');?>
