@@ -3,3 +3,6 @@ alter table `#__mkv_pp_operations`
 
 alter table `#__mkv_pp_operations`
     add index `#__mkv_pp_operations_directorID_date_op_index` (directorID, date_operation);
+
+alter table `#__mkv_pp_tasks`
+    add index `#__mkv_pp_tasks_projectID_managerID_index` (projectID, managerID);
