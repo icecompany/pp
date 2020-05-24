@@ -12,7 +12,6 @@ class PpModelOperations extends ListModel
                 'o.id',
                 'o.title',
                 'o.date_operation',
-                'o.ordering',
                 'search',
                 'manager',
                 'date',
@@ -40,6 +39,14 @@ class PpModelOperations extends ListModel
         /* Сортировка */
         $orderCol = $this->state->get('list.ordering');
         $orderDirn = $this->state->get('list.direction');
+
+        if ($orderCol === 'status') {
+            if ($orderDirn === 'ASC') $orderCol = "status ASC, o.date_operation";
+            if ($orderDirn === 'DESC') {
+                $orderCol = "status DESC, o.date_operation";
+                $orderDirn = 'DESC';
+            }
+        }
 
         //Ограничение длины списка
         $limit = (!$this->export && $this->taskID === 0 && empty($this->taskIDs) && empty($this->statuses)) ? $this->getState('list.limit') : 0;
@@ -223,7 +230,7 @@ class PpModelOperations extends ListModel
         return $taskID = JFactory::getApplication()->input->getInt('taskID', 0);
     }
 
-    protected function populateState($ordering = 'status', $direction = 'asc')
+    protected function populateState($ordering = 'status', $direction = 'ASC')
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);

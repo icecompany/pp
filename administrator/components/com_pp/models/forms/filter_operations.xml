@@ -69,19 +69,23 @@
                 label="COM_PP_FILTER_SELECT_FULL_ORDERING"
                 description="COM_PP_FILTER_SELECT_FULL_ORDERING_DESC"
                 onchange="this.form.submit();"
-                default="o.ordering asc"
+                default="status ASC"
         >
             <option value="">JGLOBAL_SORT_BY</option>
-            <option value="manager ASC">COM_PP_SORTING_MANAGER_ASC</option>
-            <option value="manager DESC">COM_PP_SORTING_MANAGER_DESC</option>
-            <option value="director ASC">COM_PP_SORTING_DIRECTOR_ASC</option>
-            <option value="director DESC">COM_PP_SORTING_DIRECTOR_DESC</option>
-            <option value="status ASC">COM_PP_SORTING_STATUS_ASC</option>
-            <option value="status DESC">COM_PP_SORTING_STATUS_DESC</option>
-            <option value="o.date_operation ASC">COM_PP_SORTING_DATE_ASC</option>
-            <option value="o.date_operation DESC">COM_PP_SORTING_DATE_DESC</option>
-            <option value="o.id ASC">COM_PP_SORTING_ID_ASC</option>
-            <option value="o.id DESC">COM_PP_SORTING_ID_DESC</option>
+            <option value="status ASC">COM_MKV_SORTING_STATUS_ASC</option>
+            <option value="status DESC">COM_MKV_SORTING_STATUS_DESC</option>
+            <option value="o.date_operation ASC">COM_MKV_SORTING_DATE_ASC</option>
+            <option value="o.date_operation DESC">COM_MKV_SORTING_DATE_DESC</option>
+            <option value="section ASC">COM_PP_SORTING_SUB_SECTION_ASC</option>
+            <option value="section DESC">COM_PP_SORTING_SUB_SECTION_DESC</option>
+            <option value="parent ASC">COM_PP_SORTING_PARENT_ASC</option>
+            <option value="parent DESC">COM_PP_SORTING_PARENT_DESC</option>
+            <option value="manager ASC">COM_MKV_SORTING_EXECUTOR_ASC</option>
+            <option value="manager DESC">COM_MKV_SORTING_EXECUTOR_DESC</option>
+            <option value="director ASC">COM_MKV_SORTING_RESPONSIBLE_ASC</option>
+            <option value="director DESC">COM_MKV_SORTING_RESPONSIBLE_DESC</option>
+            <option value="o.id ASC">COM_MKV_SORTING_ID_ASC</option>
+            <option value="o.id DESC">COM_MKV_SORTING_ID_DESC</option>
         </field>
         <field
                 name="limit"

@@ -35,6 +35,6 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
         <?php echo JHtml::_('searchtools.sort', 'COM_MKV_HEAD_RESPONSIBLE', 'director', $listDirn, $listOrder); ?>
     </th>
     <th style="width: 1%;">
-        <?php echo JHtml::_('searchtools.sort', 'ID', 's.id', $listDirn, $listOrder); ?>
+        <?php echo JHtml::_('searchtools.sort', 'ID', 'o.id', $listDirn, $listOrder); ?>
     </th>
 </tr>
