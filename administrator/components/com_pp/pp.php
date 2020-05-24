@@ -20,7 +20,11 @@ if (!Factory::getUser()->authorise('core.manage', 'com_pp'))
 	throw new InvalidArgumentException(Text::_('JERROR_ALERTNOAUTHOR'), 404);
 }
 
+//Require the language from com_mkv
+JFactory::getLanguage()->load('com_mkv', JPATH_ADMINISTRATOR . "/components/com_mkv", 'ru-RU', true);
+
 // Require the helper
+JFactory::getLanguage()->load('com_mkv', JPATH_ADMINISTRATOR . "/components/com_mkv/language", 'ru-RU', false);
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/pp.php';
 
 // Execute the task

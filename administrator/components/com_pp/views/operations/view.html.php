@@ -47,6 +47,7 @@ class PpViewOperations extends HtmlView
         {
             JToolbarHelper::deleteList('COM_PP_CONFIRM_REMOVE_OPERATION', 'operations.delete');
         }
+        JToolbarHelper::custom('operations.download', 'download', 'download', JText::sprintf('COM_MKV_BUTTON_EXPORT_TO_EXCEL'), false);
         if (PpHelper::canDo('core.admin'))
         {
             JToolBarHelper::preferences('com_pp');
