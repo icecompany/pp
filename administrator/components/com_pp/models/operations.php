@@ -262,14 +262,14 @@ class PpModelOperations extends ListModel
     private function getColumnHeads(): array
     {
         $arr = [];
-        $arr["A1"] = JText::sprintf('COM_PP_HEAD_OPERATIONS_STATUS');
-        $arr["B1"] = JText::sprintf('COM_PP_HEAD_OPERATIONS_DATE_OPERATION');
-        $arr["C1"] = JText::sprintf('COM_PP_HEAD_OPERATIONS_TASK');
-        $arr["D1"] = JText::sprintf('COM_PP_HEAD_OPERATIONS_RESULT');
+        $arr["A1"] = JText::sprintf('COM_MKV_HEAD_STATUS');
+        $arr["B1"] = JText::sprintf('COM_MKV_HEAD_DATE');
+        $arr["C1"] = JText::sprintf('COM_MKV_HEAD_TASK');
+        $arr["D1"] = JText::sprintf('COM_MKV_HEAD_RESULT');
         $arr["E1"] = JText::sprintf('COM_PP_HEAD_TASKS_SECTION');
         $arr["F1"] = JText::sprintf('COM_PP_HEAD_TASKS_PARENT');
-        $arr["G1"] = JText::sprintf('COM_PP_HEAD_TASKS_MANAGER');
-        $arr["H1"] = JText::sprintf('COM_PP_HEAD_TASKS_DIRECTOR');
+        $arr["G1"] = JText::sprintf('COM_MKV_HEAD_EXECUTOR');
+        $arr["H1"] = JText::sprintf('COM_MKV_HEAD_RESPONSIBLE');
         return $arr;
     }
 
