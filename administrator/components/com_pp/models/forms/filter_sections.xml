@@ -13,19 +13,15 @@
         <field
                 name="manager"
                 type="director"
-                label="COM_PP_FILTER_SELECT_DIRECTOR"
-                description="COM_PP_FILTER_SELECT_DIRECTOR"
                 onchange="this.form.submit();"
                 >
-            <option value="">COM_PP_FILTER_SELECT_DIRECTOR</option>
+            <option value="">COM_MKV_FILTER_SELECT_RESPONSIBLE</option>
         </field>
     </fields>
     <fields name="list">
         <field
                 name="fullordering"
                 type="list"
-                label="COM_PP_FILTER_SELECT_FULL_ORDERING"
-                description="COM_PP_FILTER_SELECT_FULL_ORDERING_DESC"
                 onchange="this.form.submit();"
                 default="s.ordering ASC"
         >
@@ -42,8 +38,6 @@
                 type="limitbox"
                 class="input-mini"
                 default="0"
-                label="COM_PP_FILTER_SELECT_LIMIT"
-                description="COM_PP_FILTER_SELECT_LIMIT_DESC"
                 onchange="this.form.submit();"
         />
     </fields>
